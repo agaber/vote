@@ -1,4 +1,4 @@
-package dev.agaber.vote.service.server;
+package dev.agaber.vote.service.restapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

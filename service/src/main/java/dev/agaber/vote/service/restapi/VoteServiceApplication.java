@@ -1,4 +1,4 @@
-package dev.agaber.vote.service.server;
+package dev.agaber.vote.service.restapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
