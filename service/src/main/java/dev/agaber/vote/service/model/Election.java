@@ -1,10 +1,7 @@
 package dev.agaber.vote.service.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
 
-@Data
-@AllArgsConstructor
-public class Election {
-  private String question;
+@Builder
+public record Election(String question) {
 }

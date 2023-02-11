@@ -15,6 +15,7 @@ import java.util.List;
 public class ElectionController {
   @GetMapping
   public ResponseEntity<List<Election>> getAllElections() {
+    var e = Election.builder().question("whatever").build();
     var elections = ImmutableList.of(new Election("whatever"));
     return new ResponseEntity<List<Election>>(elections, HttpStatus.OK);
   }
