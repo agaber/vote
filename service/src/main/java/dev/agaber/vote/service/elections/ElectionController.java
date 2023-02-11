@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ import java.util.List;
 final class ElectionController {
   private final ElectionService electionService;
 
-  @Autowired
+  @Inject
   ElectionController(ElectionService electionService) {
     this.electionService = electionService;
   }

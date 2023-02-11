@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * declare them (there's more than one way to do this).
  */
 @SpringBootApplication(scanBasePackages = {"dev.agaber.vote.service.elections"})
-class VoteServiceApplication {
+public class VoteServiceApplication {
 
   public static void main(String... args) {
     SpringApplication.run(VoteServiceApplication.class, args);
