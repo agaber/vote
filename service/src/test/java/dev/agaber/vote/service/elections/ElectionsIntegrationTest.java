@@ -23,8 +23,10 @@ final class ElectionsIntegrationTest {
   @Inject
   @ElectionStore
   private Map<String, Election> electionStore;
+
   @Inject
   private TestRestTemplate restTemplate;
+
   @Value(value = "${local.server.port}")
   private int port;
 
