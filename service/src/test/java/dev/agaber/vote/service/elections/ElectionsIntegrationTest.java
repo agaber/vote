@@ -2,8 +2,8 @@ package dev.agaber.vote.service.elections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import dev.agaber.vote.service.server.VoteServiceApplication;
 import dev.agaber.vote.service.elections.ElectionService.ElectionStore;
+import dev.agaber.vote.service.server.VoteServiceApplication;
 
 import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Test;
@@ -11,22 +11,22 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 
 import javax.inject.Inject;
-import java.util.List;
 import java.util.Map;
 
 /** Starts a local server and communicates with actual HTTP REST. */
 @ContextConfiguration(classes = {VoteServiceApplication.class, ElectionConfiguration.class})
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 final class ElectionsIntegrationTest {
-  @Inject @ElectionStore private Map<String, Election> electionStore;
-  @Inject private TestRestTemplate restTemplate;
-  @Value(value = "${local.server.port}") private int port;
+  @Inject
+  @ElectionStore
+  private Map<String, Election> electionStore;
+  @Inject
+  private TestRestTemplate restTemplate;
+  @Value(value = "${local.server.port}")
+  private int port;
 
   @Test
   public void listShouldReturnAllElectionsInElectionStore() throws Exception {

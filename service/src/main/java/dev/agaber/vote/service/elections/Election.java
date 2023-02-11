@@ -1,6 +1,5 @@
 package dev.agaber.vote.service.elections;
 
-import com.google.common.collect.ImmutableList;
 import lombok.Builder;
 
 import java.util.List;
