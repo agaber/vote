@@ -3,11 +3,17 @@ package dev.agaber.vote.service.elections;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.UUID.randomUUID;
 
+import dev.agaber.vote.service.elections.inject.Annotations.ElectionStore;
+import dev.agaber.vote.service.elections.inject.Annotations.VoteStore;
+import dev.agaber.vote.service.elections.model.Election;
+import dev.agaber.vote.service.elections.model.Vote;
+
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Multimap;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.lang.annotation.RetentionPolicy;
 import java.util.Map;
 import java.util.Optional;
 
@@ -17,17 +23,15 @@ import java.util.Optional;
  */
 @Service
 final class ElectionService {
-  /** Injection annotation for the election store Map. */
-  @java.lang.annotation.Documented
-  @java.lang.annotation.Retention(RetentionPolicy.RUNTIME)
-  @javax.inject.Qualifier
-  public @interface ElectionStore {}
-
   private final Map<String, Election> electionStore;
+  private final Multimap<String, Vote> voteStore;
 
   @Inject
-  ElectionService(@ElectionStore Map<String, Election> electionStore) {
+  ElectionService(
+      @ElectionStore Map<String, Election> electionStore,
+      @VoteStore Multimap<String, Vote> voteStore) {
     this.electionStore = electionStore;
+    this.voteStore = voteStore;
   }
 
   public Election createElection(Election election) {
@@ -50,5 +54,19 @@ final class ElectionService {
 
   public ImmutableList<Election> listElections() {
     return ImmutableList.copyOf(electionStore.values());
+  }
+
+  public void vote(String electionId, ImmutableList<String> choices) {
+    checkArgument(electionStore.containsKey(electionId), "No election with ID %s", electionId);
+    var election = electionStore.get(electionId);
+    checkArgument(
+        hasValidChoices(election, choices),
+        "Choices did not match election options. Valid options are %s",
+        election.options());
+    voteStore.put(electionId, Vote.builder().electionId(electionId).choices(choices).build());
+  }
+
+  private static boolean hasValidChoices(Election election, ImmutableList<String> choices) {
+    return ImmutableSet.copyOf(election.options()).containsAll(choices);
   }
 }

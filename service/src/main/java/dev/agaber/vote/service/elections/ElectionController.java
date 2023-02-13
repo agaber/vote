@@ -1,5 +1,10 @@
 package dev.agaber.vote.service.elections;
 
+import dev.agaber.vote.service.elections.model.Election;
+
+import com.google.common.collect.ImmutableList;
+import lombok.Builder;
+import lombok.Singular;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,16 +34,12 @@ final class ElectionController {
 
   @PostMapping
   public ResponseEntity<Election> create(@RequestBody Election election) {
-    if (election.id() != null) {
-      // TODO: Include more useful information in the response.
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
     var createdElection = electionService.createElection(election);
-    return new ResponseEntity<>(createdElection, HttpStatus.OK);
+    return ResponseEntity.ok(createdElection);
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Election> getById(@PathVariable("id") String id) {
+  public ResponseEntity<Election> getById(@PathVariable String id) {
     return electionService.getById(id)
         .map(e -> new ResponseEntity<>(e, HttpStatus.OK))
         .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -46,7 +47,7 @@ final class ElectionController {
 
   @GetMapping
   public ResponseEntity<List<Election>> list() {
-    return new ResponseEntity<>(electionService.listElections(), HttpStatus.OK);
+    return ResponseEntity.ok(electionService.listElections());
   }
 
   /** Does not allow updates to an election once created. */
@@ -57,13 +58,20 @@ final class ElectionController {
     return new ResponseEntity<>(HttpStatus.FORBIDDEN);
   }
 
-  @PostMapping("/{id}:vote")
-  public ResponseEntity<Election> vote() {
-    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+  /** Request body for the vote API. */
+  @Builder(toBuilder = true)
+  public record VoteRequest(@Singular List<String> choices) {}
+
+  @PostMapping("/{electionId}:vote")
+  public ResponseEntity vote(
+      @PathVariable String electionId, @RequestBody VoteRequest voteRequest) {
+    electionService.vote(electionId, ImmutableList.copyOf(voteRequest.choices));
+    return ResponseEntity.ok().build();
   }
 
-  @PostMapping("/{id}:tally")
-  public ResponseEntity<Election> tally() {
+  @PostMapping("/{electionId}:tally")
+  public ResponseEntity<Election> tally(@PathVariable String electionId) {
+    // TODO.
     return new ResponseEntity<Election>(HttpStatus.NOT_IMPLEMENTED);
   }
 }

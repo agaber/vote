@@ -10,9 +10,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * scans the same package of the Application class. To scan other packages we need to explicitly
  * declare them (there's more than one way to do this).
  */
-@SpringBootApplication(scanBasePackages = {"dev.agaber.vote.service.elections"})
+@SpringBootApplication(
+    scanBasePackages = {
+        "dev.agaber.vote.service.elections",
+        "dev.agaber.vote.service.server",
+    })
 public class VoteServiceApplication {
-
   public static void main(String... args) {
     SpringApplication.run(VoteServiceApplication.class, args);
   }

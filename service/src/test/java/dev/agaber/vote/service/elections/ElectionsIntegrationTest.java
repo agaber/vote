@@ -2,10 +2,16 @@ package dev.agaber.vote.service.elections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import dev.agaber.vote.service.elections.ElectionService.ElectionStore;
+import dev.agaber.vote.service.elections.inject.Annotations;
+import dev.agaber.vote.service.elections.inject.Annotations.ElectionStore;
+import dev.agaber.vote.service.elections.inject.Annotations.VoteStore;
+import dev.agaber.vote.service.elections.inject.ElectionConfiguration;
+import dev.agaber.vote.service.elections.model.Election;
+import dev.agaber.vote.service.elections.model.Vote;
 import dev.agaber.vote.service.server.VoteServiceApplication;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Multimap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,6 +33,10 @@ final class ElectionsIntegrationTest {
   private Map<String, Election> electionStore;
 
   @Inject
+  @VoteStore
+  private Multimap<String, Vote> voteStore;
+
+  @Inject
   private TestRestTemplate restTemplate;
 
   @Value(value = "${local.server.port}")
@@ -34,7 +44,8 @@ final class ElectionsIntegrationTest {
 
   @BeforeEach
   public void setUp() throws Exception {
-    // Reset election store to a base state before each test.
+    // Reset storage to a base state before each test.
+    voteStore.clear();
     electionStore.clear();
     electionStore.put(FRUIT_ELECTION.id(), FRUIT_ELECTION);
     electionStore.put(VEGETABLE_ELECTION.id(), VEGETABLE_ELECTION);
@@ -93,6 +104,87 @@ final class ElectionsIntegrationTest {
     //     HttpMethod.GET,
     //     null,
     //     new ParameterizedTypeReference<List<Election>>(){});
+  }
+
+  @Test
+  public void vote() throws Exception {
+    // Arrange
+    var electionId = FRUIT_ELECTION.id();
+    var path = String.format("%s/%s:vote", basePath(), electionId);
+    var request = ElectionController.VoteRequest.builder().choice("tomato").build();
+
+    // Act
+    var response = restTemplate.postForEntity(path, request, Void.class);
+
+    // Assert
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    assertThat(voteStore.get(electionId))
+        .containsExactly(Vote.builder().electionId(electionId).choice("tomato").build());
+  }
+
+  @Test
+  public void voteTwice() throws Exception {
+    // Add one vote to the store to start.
+    var electionId = FRUIT_ELECTION.id();
+    var firstVote = Vote.builder().electionId(electionId).choice("tomato").build();
+    voteStore.put(FRUIT_ELECTION.id(), firstVote);
+
+    // Act: vote again in the same election.
+    var path = String.format("%s/%s:vote", basePath(), electionId);
+    var request = ElectionController.VoteRequest.builder()
+        .choice("apple")
+        .choice("banana")
+        .build();
+    var response = restTemplate.postForEntity(path, request, Void.class);
+
+    // Assert: Verify that the election now has two votes.
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    assertThat(voteStore.get(electionId))
+        .containsExactly(
+            firstVote,
+            Vote.builder().electionId(electionId).choice("apple").choice("banana").build());
+  }
+
+  @Test
+  public void vote_invalidChoice_throwsBadRequestException() throws Exception {
+    // Arrange: Vote for a choice that is not in the election config.
+    var electionId = FRUIT_ELECTION.id();
+    var path = String.format("%s/%s:vote", basePath(), electionId);
+    var request = ElectionController.VoteRequest.builder().choice("carrot").build();
+
+    // Act
+    var response = restTemplate.postForEntity(path, request, Void.class);
+
+    // Assert
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+  }
+
+  @Test
+  public void vote_unknownElectionId_throwsBadRequestException() throws Exception {
+    var electionId = "notarealid";
+    var path = String.format("%s/%s:vote", basePath(), electionId);
+    var request = ElectionController.VoteRequest.builder().choice("tomato").build();
+
+    // Act
+    var response = restTemplate.postForEntity(path, request, Void.class);
+
+    // Assert
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+  }
+
+  @Test
+  public void tally() {
+    // Add one vote to the store to start.
+    var electionId = FRUIT_ELECTION.id();
+    var firstVote = Vote.builder().electionId(electionId).choice("tomato").build();
+    voteStore.put(FRUIT_ELECTION.id(), firstVote);
+
+    // Act
+    var path = String.format("%s/%s:tally", basePath(), electionId);
+    var response = restTemplate.postForEntity(path, null, Void.class);
+
+    // Assert.
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_IMPLEMENTED);
   }
 
   private String basePath() {
