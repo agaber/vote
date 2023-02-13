@@ -58,7 +58,17 @@ final class ElectionController {
     return new ResponseEntity<>(HttpStatus.FORBIDDEN);
   }
 
-  /** Request body for the vote API. */
+  /**
+   * Request body for the vote API.
+   *
+   * @param choices the things the user is voting on. The choices must match the options in the
+   *                parent election. The order of the input implies the user's preference in the
+   *                election. Meaning the choice at index 0 is their first choice and index 1 is
+   *                their second choice, and so on. Voters do not have to include all options in
+   *                their choices, but if all of their choices are eliminated their vote will not
+   *                be counted. Users shouldn't vote for the same choice more than once but there
+   *                is nothing validating that yet (there might be eventually though).
+   */
   @Builder(toBuilder = true)
   public record VoteRequest(@Singular List<String> choices) {}
 
@@ -69,7 +79,25 @@ final class ElectionController {
     return ResponseEntity.ok().build();
   }
 
-  /** Returns the winner of an election at the time the API was called. */
+  /**
+   * Returns the winner of an election at the time the API was called using the
+   * <a href="https://en.wikipedia.org/wiki/Instant-runoff_voting">instant runoff</a>
+   * vote counting strategy.
+   *
+   * <p>An example election:
+   *
+   * <pre>
+   *   | choice  | round 1 | round 2 | round 3 | round 4 |
+   *   |---------|---------|---------|---------|---------|
+   *   | tomato  | 5%      | -       | -       | -       |
+   *   | banana  | 25%     | 25%     | 25%     | -       |
+   *   | avocado | 25%     | 30%     | 30%     | 55%     |
+   *   | orange  | 30%     | 30%     | 45%     | 45%     |
+   *   | apple   | 15%     | 15%     | -       | -       |
+   *
+   *   Winner: avocado! Of course, it's a superfood!
+   * </pre>
+   */
   @PostMapping("/{electionId}:tally")
   public ResponseEntity<String> tally(@PathVariable String electionId) {
     return ResponseEntity.ok(electionService.tally(electionId));
