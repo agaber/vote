@@ -48,12 +48,12 @@ final class ElectionServiceTest {
         .options(ImmutableList.of("sandwich", "pizza", "nothing", "fruit"))
         .build();
     var e2 = Election.builder()
-        .id("1")
+        .id("2")
         .question("What is the best fruit?")
         .options(ImmutableList.of("apple", "banana", "avocado", "tomato"))
         .build();
     var e3 = Election.builder()
-        .id("2")
+        .id("3")
         .question("What is the best vegetable?")
         .options(ImmutableList.of("carrot", "broccoli", "cauliflower"))
         .build();

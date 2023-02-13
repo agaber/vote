@@ -6,6 +6,7 @@ import dev.agaber.vote.service.elections.ElectionService.ElectionStore;
 import dev.agaber.vote.service.server.VoteServiceApplication;
 
 import com.google.common.collect.ImmutableList;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,25 +31,20 @@ final class ElectionsIntegrationTest {
   @Value(value = "${local.server.port}")
   private int port;
 
-  @Test
-  public void listShouldReturnAllElectionsInElectionStore() throws Exception {
-    var e1 = Election.builder()
-        .id("1")
-        .question("What is the best fruit?")
-        .options(ImmutableList.of("apple", "banana", "avocado", "tomato"))
-        .build();
-    var e2 = Election.builder()
-        .id("2")
-        .question("What is the best vegetable?")
-        .options(ImmutableList.of("carrot", "broccoli", "cauliflower"))
-        .build();
-    electionStore.put(e1.id(), e1);
-    electionStore.put(e2.id(), e2);
+  @BeforeEach
+  public void setUp() throws Exception {
+    // Reset election store to a base state before each test.
+    electionStore.clear();
+    electionStore.put(FRUIT_ELECTION.id(), FRUIT_ELECTION);
+    electionStore.put(VEGETABLE_ELECTION.id(), VEGETABLE_ELECTION);
+  }
 
+  @Test
+  public void list() throws Exception {
     // Sadly, declaring Election.options as an ImmutableList will break this.
     // It works in production code too, it's just tests that are affected. :\
     var response = restTemplate.getForEntity(basePath(), Election[].class);
-    assertThat(response.getBody()).containsExactly(e1, e2);
+    assertThat(response.getBody()).containsExactly(FRUIT_ELECTION, VEGETABLE_ELECTION);
 
     // Alternative way.
     // var response = restTemplate.exchange(
@@ -58,7 +54,39 @@ final class ElectionsIntegrationTest {
     //     new ParameterizedTypeReference<List<Election>>(){});
   }
 
+  @Test
+  public void create() throws Exception {
+    var election = Election.builder()
+        .question("What do you want for lunch?")
+        .options(ImmutableList.of("sandwich", "pizza", "nothing", "fruit"))
+        .build();
+
+    // Execute.
+    var response = restTemplate.postForObject(basePath(), election, Election.class);
+
+    // Verify.
+    var expected = Election.builder()
+        .id(response.id())
+        .question(election.question())
+        .options(election.options())
+        .build();
+    assertThat(response).isEqualTo(expected);
+    assertThat(electionStore.get(response.id())).isEqualTo(expected);
+  }
+
   private String basePath() {
     return String.format("http://localhost:%s/api/v1/elections", port);
   }
+
+  private static final Election FRUIT_ELECTION = Election.builder()
+      .id("1")
+      .question("What is the best fruit?")
+      .options(ImmutableList.of("apple", "banana", "avocado", "tomato"))
+      .build();
+
+  private static final Election VEGETABLE_ELECTION = Election.builder()
+      .id("2")
+      .question("What is the best vegetable?")
+      .options(ImmutableList.of("carrot", "broccoli", "cauliflower"))
+      .build();
 }
