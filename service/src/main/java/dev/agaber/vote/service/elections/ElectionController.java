@@ -49,10 +49,12 @@ final class ElectionController {
     return new ResponseEntity<>(electionService.listElections(), HttpStatus.OK);
   }
 
+  /** Does not allow updates to an election once created. */
   @PatchMapping
   public ResponseEntity<Election> update() {
-    // May not want to allow this, or at least block it once people have started voting?
-    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    // TODO: add an isDraft field (or status field) to election and only allow updates to drafts.
+    // Draft status cannot be changed once published.
+    return new ResponseEntity<>(HttpStatus.FORBIDDEN);
   }
 
   @PostMapping("/{id}:vote")
