@@ -19,8 +19,8 @@ repositories {
 }
 
 dependencies {
-  annotationProcessor 'org.projectlombok:lombok'
-  compileOnly 'org.projectlombok:lombok'
+  annotationProcessor 'org.projectlombok:lombok:1.18.26'
+  compileOnly 'org.projectlombok:lombok:1.18.26'
   implementation 'com.google.guava:guava:31.1-jre'
   implementation 'javax.inject:javax.inject:1'
   implementation 'org.springframework.boot:spring-boot-starter-web'
