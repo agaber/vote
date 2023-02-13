@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.inject.Inject;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Performs all business logic related to elections. For early iterations, this class will perform
@@ -20,8 +21,7 @@ final class ElectionService {
   @java.lang.annotation.Documented
   @java.lang.annotation.Retention(RetentionPolicy.RUNTIME)
   @javax.inject.Qualifier
-  public @interface ElectionStore {
-  }
+  public @interface ElectionStore {}
 
   private final Map<String, Election> electionStore;
 
@@ -42,6 +42,10 @@ final class ElectionService {
         .build();
     electionStore.put(newId, created);
     return created;
+  }
+
+  public Optional<Election> getById(String id) {
+    return Optional.ofNullable(electionStore.getOrDefault(id, null));
   }
 
   public ImmutableList<Election> listElections() {

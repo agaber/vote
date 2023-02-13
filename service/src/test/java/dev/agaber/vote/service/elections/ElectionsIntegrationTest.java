@@ -12,6 +12,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.test.context.ContextConfiguration;
 
 import javax.inject.Inject;
@@ -40,34 +45,58 @@ final class ElectionsIntegrationTest {
   }
 
   @Test
+  public void create() throws Exception {
+    var newElection = Election.builder()
+        .question("What do you want for lunch?")
+        .options(ImmutableList.of("sandwich", "pizza", "nothing", "fruit"))
+        .build();
+
+    // Execute.
+    var response = restTemplate.postForObject(basePath(), newElection, Election.class);
+
+    // Verify.
+    var expected = newElection.toBuilder().id(response.id()).build();
+    assertThat(response).isEqualTo(expected);
+    assertThat(electionStore.get(response.id())).isEqualTo(expected);
+  }
+
+  @Test
+  public void create_requestHasId_throwsBadRequestException() throws Exception {
+    var newElection = Election.builder()
+        .id("123")
+        .question("What do you want for lunch?")
+        .options(ImmutableList.of("sandwich", "pizza", "nothing", "fruit"))
+        .build();
+    var response = restTemplate.postForEntity(basePath(), newElection, Election.class);
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+  }
+
+  @Test
+  public void getById_found_returnsElection() throws Exception {
+    var path = String.format("%s/%s", basePath(), FRUIT_ELECTION.id());
+    var response = restTemplate.getForObject(path, Election.class);
+    assertThat(response).isEqualTo(FRUIT_ELECTION);
+  }
+
+  public void getById_notFound_throwsException() throws Exception {
+    var path = String.format("%s/%s", basePath(), "yabba");
+    var response = restTemplate.getForEntity(path, Election.class);
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+  }
+
+  @Test
   public void list() throws Exception {
     // Sadly, declaring Election.options as an ImmutableList will break this.
     // It works in production code too, it's just tests that are affected. :\
     var response = restTemplate.getForEntity(basePath(), Election[].class);
     assertThat(response.getBody()).containsExactly(FRUIT_ELECTION, VEGETABLE_ELECTION);
 
-    // Alternative way.
+    // Alternative way for reference.
     // var response = restTemplate.exchange(
     //     basePath(),
     //     HttpMethod.GET,
     //     null,
     //     new ParameterizedTypeReference<List<Election>>(){});
-  }
-
-  @Test
-  public void create() throws Exception {
-    var election = Election.builder()
-        .question("What do you want for lunch?")
-        .options(ImmutableList.of("sandwich", "pizza", "nothing", "fruit"))
-        .build();
-
-    // Execute.
-    var response = restTemplate.postForObject(basePath(), election, Election.class);
-
-    // Verify.
-    var expected = election.toBuilder().id(response.id()).build();
-    assertThat(response).isEqualTo(expected);
-    assertThat(electionStore.get(response.id())).isEqualTo(expected);
   }
 
   private String basePath() {

@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,30 +27,37 @@ final class ElectionController {
     this.electionService = electionService;
   }
 
-  @GetMapping
-  public ResponseEntity<List<Election>> list() {
-    return new ResponseEntity<List<Election>>(electionService.listElections(), HttpStatus.OK);
+  @PostMapping
+  public ResponseEntity<Election> create(@RequestBody Election election) {
+    if (election.id() != null) {
+      // TODO: Include more useful information in the response.
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    var createdElection = electionService.createElection(election);
+    return new ResponseEntity<>(createdElection, HttpStatus.OK);
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Election> getById() {
-    return new ResponseEntity<Election>(HttpStatus.NOT_IMPLEMENTED);
+  public ResponseEntity<Election> getById(@PathVariable("id") String id) {
+    return electionService.getById(id)
+        .map(e -> new ResponseEntity<>(e, HttpStatus.OK))
+        .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
   }
 
-  @PostMapping
-  public ResponseEntity<Election> create(@RequestBody Election election) {
-    var createdElection = electionService.createElection(election);
-    return new ResponseEntity<Election>(createdElection, HttpStatus.OK);
+  @GetMapping
+  public ResponseEntity<List<Election>> list() {
+    return new ResponseEntity<>(electionService.listElections(), HttpStatus.OK);
   }
 
   @PatchMapping
   public ResponseEntity<Election> update() {
-    return new ResponseEntity<Election>(HttpStatus.NOT_IMPLEMENTED);
+    // May not want to allow this, or at least block it once people have started voting?
+    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
   }
 
   @PostMapping("/{id}:vote")
   public ResponseEntity<Election> vote() {
-    return new ResponseEntity<Election>(HttpStatus.NOT_IMPLEMENTED);
+    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
   }
 
   @PostMapping("/{id}:tally")
