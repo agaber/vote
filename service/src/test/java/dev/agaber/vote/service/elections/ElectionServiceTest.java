@@ -32,11 +32,7 @@ final class ElectionServiceTest {
     // Verify.
     assertThat(electionStore.size()).isEqualTo(1);
     assertThat(result.id()).isNotEmpty();
-    var expected = Election.builder()
-        .id(result.id())
-        .question(election.question())
-        .options(election.options())
-        .build();
+    var expected = election.toBuilder().id(result.id()).build();
     assertThat(electionStore.get(result.id())).isEqualTo(expected);
   }
 

@@ -1,6 +1,7 @@
 package dev.agaber.vote.service.elections;
 
 import lombok.Builder;
+import lombok.Singular;
 
 import java.util.List;
 
@@ -12,6 +13,5 @@ import java.util.List;
  * @param question the thing voters need to decide on.
  * @param options  a list of options voters can choose from.
  */
-@Builder
-record Election(String id, String question, List<String> options) {
-}
+@Builder(toBuilder = true)
+record Election(String id, String question, @Singular List<String> options) {}

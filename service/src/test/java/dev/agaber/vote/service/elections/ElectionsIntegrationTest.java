@@ -65,11 +65,7 @@ final class ElectionsIntegrationTest {
     var response = restTemplate.postForObject(basePath(), election, Election.class);
 
     // Verify.
-    var expected = Election.builder()
-        .id(response.id())
-        .question(election.question())
-        .options(election.options())
-        .build();
+    var expected = election.toBuilder().id(response.id()).build();
     assertThat(response).isEqualTo(expected);
     assertThat(electionStore.get(response.id())).isEqualTo(expected);
   }
@@ -81,12 +77,17 @@ final class ElectionsIntegrationTest {
   private static final Election FRUIT_ELECTION = Election.builder()
       .id("1")
       .question("What is the best fruit?")
-      .options(ImmutableList.of("apple", "banana", "avocado", "tomato"))
+      .option("apple")
+      .option("banana")
+      .option("avocado")
+      .option("tomato")
       .build();
 
   private static final Election VEGETABLE_ELECTION = Election.builder()
       .id("2")
       .question("What is the best vegetable?")
-      .options(ImmutableList.of("carrot", "broccoli", "cauliflower"))
+      .option("carrot")
+      .option("broccoli")
+      .option("cauliflower")
       .build();
 }
