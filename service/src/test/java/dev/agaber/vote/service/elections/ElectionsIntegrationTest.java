@@ -2,7 +2,6 @@ package dev.agaber.vote.service.elections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import dev.agaber.vote.service.elections.inject.Annotations;
 import dev.agaber.vote.service.elections.inject.Annotations.ElectionStore;
 import dev.agaber.vote.service.elections.inject.Annotations.VoteStore;
 import dev.agaber.vote.service.elections.inject.ElectionConfiguration;
@@ -172,19 +171,207 @@ final class ElectionsIntegrationTest {
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
   }
 
+  /**
+   * Tests that votes are counted and winner is determined as expected.
+   *
+   * <p>What I'm trying to simulate in this test:
+   *
+   * <pre>
+   *   | choice  | round 1 | round 2 | round 3 | round 4 |
+   *   |---------|---------|---------|---------|---------|
+   *   | apple   | 5%      | -       | -       | -       |
+   *   | banana  | 25%     | 25%     | 25%     | -       |
+   *   | avocado | 25%     | 30%     | 30%     | 55%     |
+   *   | tomato  | 30%     | 30%     | 45%     | 45%     |
+   *   | orange  | 15%     | 15%     | -       | -       |
+   * </pre>
+   */
   @Test
   public void tally() {
-    // Add one vote to the store to start.
     var electionId = FRUIT_ELECTION.id();
-    var firstVote = Vote.builder().electionId(electionId).choice("tomato").build();
-    voteStore.put(FRUIT_ELECTION.id(), firstVote);
+
+    // 1.
+    voteStore.put(
+        FRUIT_ELECTION.id(),
+        Vote.builder()
+            .electionId(electionId)
+            .choice("apple")
+            .choice("avocado")
+            .choice("banana")
+            .choice("orange")
+            .choice("tomato")
+            .build());
+
+    // 2.
+    voteStore.put(
+        FRUIT_ELECTION.id(),
+        Vote.builder()
+            .electionId(electionId)
+            .choice("banana")
+            .choice("avocado")
+            .choice("orange")
+            .choice("tomato")
+            .choice("apple")
+            .build());
+
+    // 3.
+    voteStore.put(
+        FRUIT_ELECTION.id(),
+        Vote.builder()
+            .electionId(electionId)
+            .choice("banana")
+            .choice("avocado")
+            .build());
+
+    // 4.
+    voteStore.put(
+        FRUIT_ELECTION.id(),
+        Vote.builder()
+            .electionId(electionId)
+            .choice("banana")
+            .choice("avocado")
+            .build());
+
+    // 5.
+    voteStore.put(
+        FRUIT_ELECTION.id(),
+        Vote.builder()
+            .electionId(electionId)
+            .choice("banana")
+            .choice("avocado")
+            .build());
+
+    // 6.
+    voteStore.put(
+        FRUIT_ELECTION.id(),
+        Vote.builder()
+            .electionId(electionId)
+            .choice("banana")
+            .choice("avocado")
+            .build());
+
+    // 7.
+    voteStore.put(
+        FRUIT_ELECTION.id(),
+        Vote.builder()
+            .electionId(electionId)
+            .choice("avocado")
+            .build());
+
+    // 8.
+    voteStore.put(
+        FRUIT_ELECTION.id(),
+        Vote.builder()
+            .electionId(electionId)
+            .choice("avocado")
+            .build());
+
+    // 9.
+    voteStore.put(
+        FRUIT_ELECTION.id(),
+        Vote.builder()
+            .electionId(electionId)
+            .choice("avocado")
+            .build());
+
+    // 10.
+    voteStore.put(
+        FRUIT_ELECTION.id(),
+        Vote.builder()
+            .electionId(electionId)
+            .choice("avocado")
+            .build());
+
+    // 11.
+    voteStore.put(
+        FRUIT_ELECTION.id(),
+        Vote.builder()
+            .electionId(electionId)
+            .choice("avocado")
+            .build());
+
+    // 12.
+    voteStore.put(
+        FRUIT_ELECTION.id(),
+        Vote.builder()
+            .electionId(electionId)
+            .choice("tomato")
+            .build());
+
+    // 13.
+    voteStore.put(
+        FRUIT_ELECTION.id(),
+        Vote.builder()
+            .electionId(electionId)
+            .choice("tomato")
+            .build());
+
+    // 14.
+    voteStore.put(
+        FRUIT_ELECTION.id(),
+        Vote.builder()
+            .electionId(electionId)
+            .choice("tomato")
+            .build());
+
+    // 15.
+    voteStore.put(
+        FRUIT_ELECTION.id(),
+        Vote.builder()
+            .electionId(electionId)
+            .choice("tomato")
+            .build());
+
+    // 16.
+    voteStore.put(
+        FRUIT_ELECTION.id(),
+        Vote.builder()
+            .electionId(electionId)
+            .choice("tomato")
+            .build());
+
+    // 17.
+    voteStore.put(
+        FRUIT_ELECTION.id(),
+        Vote.builder()
+            .electionId(electionId)
+            .choice("tomato")
+            .build());
+
+    // 18.
+    voteStore.put(
+        FRUIT_ELECTION.id(),
+        Vote.builder()
+            .electionId(electionId)
+            .choice("orange")
+            .choice("tomato")
+            .build());
+
+    // 19.
+    voteStore.put(
+        FRUIT_ELECTION.id(),
+        Vote.builder()
+            .electionId(electionId)
+            .choice("orange")
+            .choice("tomato")
+            .build());
+
+    // 20.
+    voteStore.put(
+        FRUIT_ELECTION.id(),
+        Vote.builder()
+            .electionId(electionId)
+            .choice("orange")
+            .choice("tomato")
+            .build());
 
     // Act
     var path = String.format("%s/%s:tally", basePath(), electionId);
-    var response = restTemplate.postForEntity(path, null, Void.class);
+    var response = restTemplate.postForEntity(path, null, String.class);
 
     // Assert.
-    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_IMPLEMENTED);
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    assertThat(response.getBody()).isEqualTo("avocado");
   }
 
   private String basePath() {
@@ -198,6 +385,7 @@ final class ElectionsIntegrationTest {
       .option("banana")
       .option("avocado")
       .option("tomato")
+      .option("orange")
       .build();
 
   private static final Election VEGETABLE_ELECTION = Election.builder()

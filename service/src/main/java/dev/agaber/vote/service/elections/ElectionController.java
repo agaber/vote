@@ -69,9 +69,9 @@ final class ElectionController {
     return ResponseEntity.ok().build();
   }
 
+  /** Returns the winner of an election at the time the API was called. */
   @PostMapping("/{electionId}:tally")
-  public ResponseEntity<Election> tally(@PathVariable String electionId) {
-    // TODO.
-    return new ResponseEntity<Election>(HttpStatus.NOT_IMPLEMENTED);
+  public ResponseEntity<String> tally(@PathVariable String electionId) {
+    return ResponseEntity.ok(electionService.tally(electionId));
   }
 }

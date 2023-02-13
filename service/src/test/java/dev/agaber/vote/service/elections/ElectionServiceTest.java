@@ -10,6 +10,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multimap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -62,6 +63,96 @@ final class ElectionServiceTest {
 
     // Verify.
     assertThat(result).containsExactly(e1, e2, e3);
+  }
+
+  @Test
+  public void tally() {
+    var electionId = LUNCH_ELECTION.id();
+    electionStore.put(electionId, LUNCH_ELECTION);
+
+    voteStore.put(
+        LUNCH_ELECTION.id(),
+        Vote.builder()
+            .electionId(electionId)
+            .choice("sandwich")
+            .build());
+
+    voteStore.put(
+        LUNCH_ELECTION.id(),
+        Vote.builder()
+            .electionId(electionId)
+            .choice("pizza")
+            .build());
+
+    voteStore.put(
+        LUNCH_ELECTION.id(),
+        Vote.builder()
+            .electionId(electionId)
+            .choice("pizza")
+            .build());
+
+    // Act
+    var result = electionService.tally(LUNCH_ELECTION.id());
+
+    // Assert.
+    assertThat(result).isEqualTo("pizza");
+  }
+
+  @Test
+  public void tally_onevote() {
+    var electionId = LUNCH_ELECTION.id();
+    electionStore.put(electionId, LUNCH_ELECTION);
+
+    voteStore.put(
+        LUNCH_ELECTION.id(),
+        Vote.builder()
+            .electionId(electionId)
+            .choice("sandwich")
+            .build());
+
+    // Act
+    var result = electionService.tally(LUNCH_ELECTION.id());
+
+    // Assert.
+    assertThat(result).isEqualTo("sandwich");
+  }
+
+  @Test
+  public void tally_tie() {
+    var electionId = LUNCH_ELECTION.id();
+    electionStore.put(electionId, LUNCH_ELECTION);
+
+    voteStore.put(
+        LUNCH_ELECTION.id(),
+        Vote.builder()
+            .electionId(electionId)
+            .choice("sandwich")
+            .build());
+
+    voteStore.put(
+        LUNCH_ELECTION.id(),
+        Vote.builder()
+            .electionId(electionId)
+            .choice("pizza")
+            .build());
+
+    // Act
+    var result = electionService.tally(LUNCH_ELECTION.id());
+
+    // Assert - Expect it to take the first one.
+    assertThat(result).isEqualTo("sandwich");
+  }
+
+  @Test
+  public void tally_novotes() {
+    var electionId = LUNCH_ELECTION.id();
+    electionStore.put(electionId, LUNCH_ELECTION);
+
+    // Act
+    var result = electionService.tally(LUNCH_ELECTION.id());
+
+    // Assert - Expect it to take the first one.
+    assertThat(result).isEqualTo("");
   }
 
   private static final Election LUNCH_ELECTION = Election.builder()

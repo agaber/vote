@@ -8,14 +8,20 @@ import dev.agaber.vote.service.elections.inject.Annotations.VoteStore;
 import dev.agaber.vote.service.elections.model.Election;
 import dev.agaber.vote.service.elections.model.Vote;
 
+import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.Multiset;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Performs all business logic related to elections. For early iterations, this class will perform
@@ -64,6 +70,48 @@ final class ElectionService {
         "Choices did not match election options. Valid options are %s",
         election.options());
     voteStore.put(electionId, Vote.builder().electionId(electionId).choices(choices).build());
+  }
+
+  public String tally(String electionId) {
+    checkArgument(electionStore.containsKey(electionId), "No election with ID %s", electionId);
+    var votes = ImmutableList.copyOf(voteStore.get(electionId));
+    return votes.isEmpty() ? "" : tally(votes, new HashSet<>());
+  }
+
+  private static String tally(ImmutableList<Vote> votes, Set<String> eliminated) {
+    var counter = new HashMap<String, Integer>();
+    var numVoters = votes.size();
+
+    for (var vote : votes) {
+      // Count the first choice that isn't eliminated yet.
+      for (var choice : vote.choices()) {
+        if (!eliminated.contains(choice)) {
+          counter.put(choice, counter.getOrDefault(choice, 0) + 1);
+
+          // Stop once we find any selection that has majority of votes.
+          if (counter.get(choice) / (numVoters * 1.0) * 100 >= 50.0) {
+            return choice;
+          }
+
+          // Otherwise count the next vote.
+          break;
+        }
+      }
+    }
+
+    // Find the choice to eliminate.
+    var minChoice = "";
+    var minCount = Integer.MAX_VALUE;
+    for (var choice : counter.keySet()) {
+      int count = counter.get(choice);
+      if (count < minCount) {
+        minChoice = choice;
+        minCount = count;
+      }
+    }
+
+    eliminated.add(minChoice);
+    return tally(votes, eliminated);
   }
 
   private static boolean hasValidChoices(Election election, ImmutableList<String> choices) {
