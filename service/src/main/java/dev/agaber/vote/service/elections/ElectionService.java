@@ -9,12 +9,9 @@ import dev.agaber.vote.service.elections.inject.Annotations.VoteStore;
 import dev.agaber.vote.service.elections.model.Election;
 import dev.agaber.vote.service.elections.model.Vote;
 
-import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.Multiset;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
