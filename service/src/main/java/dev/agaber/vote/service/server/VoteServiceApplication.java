@@ -2,6 +2,8 @@ package dev.agaber.vote.service.server;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
+import org.springframework.context.annotation.Bean;
 
 /**
  * The main entry point for this service. It will launch an embedded Tomcat server.
@@ -16,6 +18,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
         "dev.agaber.vote.service.server",
     })
 public class VoteServiceApplication {
+  @Bean
+  public ServletRegistrationBean servletRegistrationBean(){
+    return new ServletRegistrationBean(new HealthzServlet(), "/healthz");
+  }
+
   public static void main(String... args) {
     SpringApplication.run(VoteServiceApplication.class, args);
   }
