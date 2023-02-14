@@ -2,6 +2,7 @@ package dev.agaber.vote.service.elections;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.UUID.randomUUID;
+import static java.util.function.Predicate.not;
 
 import dev.agaber.vote.service.elections.inject.Annotations.ElectionStore;
 import dev.agaber.vote.service.elections.inject.Annotations.VoteStore;
@@ -84,22 +85,27 @@ final class ElectionService {
 
     for (var vote : votes) {
       // Count the first choice that isn't eliminated yet.
-      for (var choice : vote.getChoices()) {
-        if (!eliminated.contains(choice)) {
-          counter.put(choice, counter.getOrDefault(choice, 0) + 1);
+      var maybeChoice = vote.getChoices().stream().filter(not(eliminated::contains)).findFirst();
+      if (maybeChoice.isEmpty()) {
+        continue;
+      }
 
-          // Stop once we find any selection that has majority of votes.
-          if (counter.get(choice) / (numVoters * 1.0) * 100 >= 50.0) {
-            return choice;
-          }
+      var choice = maybeChoice.get();
+      counter.put(choice, counter.getOrDefault(choice, 0) + 1);
 
-          // Otherwise count the next vote.
-          break;
-        }
+      // Stop once we find any selection that has majority of votes.
+      int choiceCount = counter.get(choice);
+      if (choiceCount / (numVoters * 1.0) * 100 >= 50.0) {
+        return choice;
       }
     }
 
-    // Find the choice to eliminate.
+    eliminated.add(getLowestVoteGetter(counter));
+    return tally(votes, eliminated);
+  }
+
+  /** Finds the choice with the lowest votes. */
+  private static String getLowestVoteGetter(Map<String, Integer> counter) {
     var minChoice = "";
     var minCount = Integer.MAX_VALUE;
     for (var choice : counter.keySet()) {
@@ -109,9 +115,7 @@ final class ElectionService {
         minCount = count;
       }
     }
-
-    eliminated.add(minChoice);
-    return tally(votes, eliminated);
+    return minChoice;
   }
 
   private static boolean hasValidChoices(Election election, ImmutableList<String> choices) {
