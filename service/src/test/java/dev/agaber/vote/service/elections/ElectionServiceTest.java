@@ -36,9 +36,9 @@ final class ElectionServiceTest {
 
     // Verify.
     assertThat(electionStore.size()).isEqualTo(1);
-    assertThat(result.id()).isNotEmpty();
-    var expected = election.toBuilder().id(result.id()).build();
-    assertThat(electionStore.get(result.id())).isEqualTo(expected);
+    assertThat(result.getId()).isNotEmpty();
+    var expected = election.toBuilder().id(result.getId()).build();
+    assertThat(electionStore.get(result.getId())).isEqualTo(expected);
   }
 
   @Test
@@ -54,9 +54,9 @@ final class ElectionServiceTest {
         .question("What is the best vegetable?")
         .options(ImmutableList.of("carrot", "broccoli", "cauliflower"))
         .build();
-    electionStore.put(e1.id(), e1);
-    electionStore.put(e2.id(), e2);
-    electionStore.put(e3.id(), e3);
+    electionStore.put(e1.getId(), e1);
+    electionStore.put(e2.getId(), e2);
+    electionStore.put(e3.getId(), e3);
 
     // Execute.
     var result = electionService.listElections();
@@ -67,32 +67,32 @@ final class ElectionServiceTest {
 
   @Test
   public void tally() {
-    var electionId = LUNCH_ELECTION.id();
+    var electionId = LUNCH_ELECTION.getId();
     electionStore.put(electionId, LUNCH_ELECTION);
 
     voteStore.put(
-        LUNCH_ELECTION.id(),
+        LUNCH_ELECTION.getId(),
         Vote.builder()
             .electionId(electionId)
             .choice("sandwich")
             .build());
 
     voteStore.put(
-        LUNCH_ELECTION.id(),
+        LUNCH_ELECTION.getId(),
         Vote.builder()
             .electionId(electionId)
             .choice("pizza")
             .build());
 
     voteStore.put(
-        LUNCH_ELECTION.id(),
+        LUNCH_ELECTION.getId(),
         Vote.builder()
             .electionId(electionId)
             .choice("pizza")
             .build());
 
     // Act
-    var result = electionService.tally(LUNCH_ELECTION.id());
+    var result = electionService.tally(LUNCH_ELECTION.getId());
 
     // Assert.
     assertThat(result).isEqualTo("pizza");
@@ -100,18 +100,18 @@ final class ElectionServiceTest {
 
   @Test
   public void tally_onevote() {
-    var electionId = LUNCH_ELECTION.id();
+    var electionId = LUNCH_ELECTION.getId();
     electionStore.put(electionId, LUNCH_ELECTION);
 
     voteStore.put(
-        LUNCH_ELECTION.id(),
+        LUNCH_ELECTION.getId(),
         Vote.builder()
             .electionId(electionId)
             .choice("sandwich")
             .build());
 
     // Act
-    var result = electionService.tally(LUNCH_ELECTION.id());
+    var result = electionService.tally(LUNCH_ELECTION.getId());
 
     // Assert.
     assertThat(result).isEqualTo("sandwich");
@@ -119,25 +119,25 @@ final class ElectionServiceTest {
 
   @Test
   public void tally_tie() {
-    var electionId = LUNCH_ELECTION.id();
+    var electionId = LUNCH_ELECTION.getId();
     electionStore.put(electionId, LUNCH_ELECTION);
 
     voteStore.put(
-        LUNCH_ELECTION.id(),
+        LUNCH_ELECTION.getId(),
         Vote.builder()
             .electionId(electionId)
             .choice("sandwich")
             .build());
 
     voteStore.put(
-        LUNCH_ELECTION.id(),
+        LUNCH_ELECTION.getId(),
         Vote.builder()
             .electionId(electionId)
             .choice("pizza")
             .build());
 
     // Act
-    var result = electionService.tally(LUNCH_ELECTION.id());
+    var result = electionService.tally(LUNCH_ELECTION.getId());
 
     // Assert - Expect it to take the first one.
     assertThat(result).isEqualTo("sandwich");
@@ -145,11 +145,11 @@ final class ElectionServiceTest {
 
   @Test
   public void tally_novotes() {
-    var electionId = LUNCH_ELECTION.id();
+    var electionId = LUNCH_ELECTION.getId();
     electionStore.put(electionId, LUNCH_ELECTION);
 
     // Act
-    var result = electionService.tally(LUNCH_ELECTION.id());
+    var result = electionService.tally(LUNCH_ELECTION.getId());
 
     // Assert - Expect it to take the first one.
     assertThat(result).isEqualTo("");

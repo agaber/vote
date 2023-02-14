@@ -46,8 +46,8 @@ final class ElectionsIntegrationTest {
     // Reset storage to a base state before each test.
     voteStore.clear();
     electionStore.clear();
-    electionStore.put(FRUIT_ELECTION.id(), FRUIT_ELECTION);
-    electionStore.put(VEGETABLE_ELECTION.id(), VEGETABLE_ELECTION);
+    electionStore.put(FRUIT_ELECTION.getId(), FRUIT_ELECTION);
+    electionStore.put(VEGETABLE_ELECTION.getId(), VEGETABLE_ELECTION);
   }
 
   @Test
@@ -61,9 +61,9 @@ final class ElectionsIntegrationTest {
     var response = restTemplate.postForObject(basePath(), newElection, Election.class);
 
     // Verify.
-    var expected = newElection.toBuilder().id(response.id()).build();
+    var expected = newElection.toBuilder().id(response.getId()).build();
     assertThat(response).isEqualTo(expected);
-    assertThat(electionStore.get(response.id())).isEqualTo(expected);
+    assertThat(electionStore.get(response.getId())).isEqualTo(expected);
   }
 
   @Test
@@ -79,7 +79,7 @@ final class ElectionsIntegrationTest {
 
   @Test
   public void getById_found_returnsElection() throws Exception {
-    var path = String.format("%s/%s", basePath(), FRUIT_ELECTION.id());
+    var path = String.format("%s/%s", basePath(), FRUIT_ELECTION.getId());
     var response = restTemplate.getForObject(path, Election.class);
     assertThat(response).isEqualTo(FRUIT_ELECTION);
   }
@@ -108,7 +108,7 @@ final class ElectionsIntegrationTest {
   @Test
   public void vote() throws Exception {
     // Arrange
-    var electionId = FRUIT_ELECTION.id();
+    var electionId = FRUIT_ELECTION.getId();
     var path = String.format("%s/%s:vote", basePath(), electionId);
     var request = ElectionController.VoteRequest.builder().choice("tomato").build();
 
@@ -124,9 +124,9 @@ final class ElectionsIntegrationTest {
   @Test
   public void voteTwice() throws Exception {
     // Add one vote to the store to start.
-    var electionId = FRUIT_ELECTION.id();
+    var electionId = FRUIT_ELECTION.getId();
     var firstVote = Vote.builder().electionId(electionId).choice("tomato").build();
-    voteStore.put(FRUIT_ELECTION.id(), firstVote);
+    voteStore.put(FRUIT_ELECTION.getId(), firstVote);
 
     // Act: vote again in the same election.
     var path = String.format("%s/%s:vote", basePath(), electionId);
@@ -147,7 +147,7 @@ final class ElectionsIntegrationTest {
   @Test
   public void vote_invalidChoice_throwsBadRequestException() throws Exception {
     // Arrange: Vote for a choice that is not in the election config.
-    var electionId = FRUIT_ELECTION.id();
+    var electionId = FRUIT_ELECTION.getId();
     var path = String.format("%s/%s:vote", basePath(), electionId);
     var request = ElectionController.VoteRequest.builder().choice("carrot").build();
 
@@ -188,11 +188,11 @@ final class ElectionsIntegrationTest {
    */
   @Test
   public void tally() {
-    var electionId = FRUIT_ELECTION.id();
+    var electionId = FRUIT_ELECTION.getId();
 
     // 1.
     voteStore.put(
-        FRUIT_ELECTION.id(),
+        FRUIT_ELECTION.getId(),
         Vote.builder()
             .electionId(electionId)
             .choice("apple")
@@ -204,7 +204,7 @@ final class ElectionsIntegrationTest {
 
     // 2.
     voteStore.put(
-        FRUIT_ELECTION.id(),
+        FRUIT_ELECTION.getId(),
         Vote.builder()
             .electionId(electionId)
             .choice("banana")
@@ -216,7 +216,7 @@ final class ElectionsIntegrationTest {
 
     // 3.
     voteStore.put(
-        FRUIT_ELECTION.id(),
+        FRUIT_ELECTION.getId(),
         Vote.builder()
             .electionId(electionId)
             .choice("banana")
@@ -225,7 +225,7 @@ final class ElectionsIntegrationTest {
 
     // 4.
     voteStore.put(
-        FRUIT_ELECTION.id(),
+        FRUIT_ELECTION.getId(),
         Vote.builder()
             .electionId(electionId)
             .choice("banana")
@@ -234,7 +234,7 @@ final class ElectionsIntegrationTest {
 
     // 5.
     voteStore.put(
-        FRUIT_ELECTION.id(),
+        FRUIT_ELECTION.getId(),
         Vote.builder()
             .electionId(electionId)
             .choice("banana")
@@ -243,7 +243,7 @@ final class ElectionsIntegrationTest {
 
     // 6.
     voteStore.put(
-        FRUIT_ELECTION.id(),
+        FRUIT_ELECTION.getId(),
         Vote.builder()
             .electionId(electionId)
             .choice("banana")
@@ -252,7 +252,7 @@ final class ElectionsIntegrationTest {
 
     // 7.
     voteStore.put(
-        FRUIT_ELECTION.id(),
+        FRUIT_ELECTION.getId(),
         Vote.builder()
             .electionId(electionId)
             .choice("avocado")
@@ -260,7 +260,7 @@ final class ElectionsIntegrationTest {
 
     // 8.
     voteStore.put(
-        FRUIT_ELECTION.id(),
+        FRUIT_ELECTION.getId(),
         Vote.builder()
             .electionId(electionId)
             .choice("avocado")
@@ -268,7 +268,7 @@ final class ElectionsIntegrationTest {
 
     // 9.
     voteStore.put(
-        FRUIT_ELECTION.id(),
+        FRUIT_ELECTION.getId(),
         Vote.builder()
             .electionId(electionId)
             .choice("avocado")
@@ -276,7 +276,7 @@ final class ElectionsIntegrationTest {
 
     // 10.
     voteStore.put(
-        FRUIT_ELECTION.id(),
+        FRUIT_ELECTION.getId(),
         Vote.builder()
             .electionId(electionId)
             .choice("avocado")
@@ -284,7 +284,7 @@ final class ElectionsIntegrationTest {
 
     // 11.
     voteStore.put(
-        FRUIT_ELECTION.id(),
+        FRUIT_ELECTION.getId(),
         Vote.builder()
             .electionId(electionId)
             .choice("avocado")
@@ -292,7 +292,7 @@ final class ElectionsIntegrationTest {
 
     // 12.
     voteStore.put(
-        FRUIT_ELECTION.id(),
+        FRUIT_ELECTION.getId(),
         Vote.builder()
             .electionId(electionId)
             .choice("tomato")
@@ -300,7 +300,7 @@ final class ElectionsIntegrationTest {
 
     // 13.
     voteStore.put(
-        FRUIT_ELECTION.id(),
+        FRUIT_ELECTION.getId(),
         Vote.builder()
             .electionId(electionId)
             .choice("tomato")
@@ -308,7 +308,7 @@ final class ElectionsIntegrationTest {
 
     // 14.
     voteStore.put(
-        FRUIT_ELECTION.id(),
+        FRUIT_ELECTION.getId(),
         Vote.builder()
             .electionId(electionId)
             .choice("tomato")
@@ -316,7 +316,7 @@ final class ElectionsIntegrationTest {
 
     // 15.
     voteStore.put(
-        FRUIT_ELECTION.id(),
+        FRUIT_ELECTION.getId(),
         Vote.builder()
             .electionId(electionId)
             .choice("tomato")
@@ -324,7 +324,7 @@ final class ElectionsIntegrationTest {
 
     // 16.
     voteStore.put(
-        FRUIT_ELECTION.id(),
+        FRUIT_ELECTION.getId(),
         Vote.builder()
             .electionId(electionId)
             .choice("tomato")
@@ -332,7 +332,7 @@ final class ElectionsIntegrationTest {
 
     // 17.
     voteStore.put(
-        FRUIT_ELECTION.id(),
+        FRUIT_ELECTION.getId(),
         Vote.builder()
             .electionId(electionId)
             .choice("tomato")
@@ -340,7 +340,7 @@ final class ElectionsIntegrationTest {
 
     // 18.
     voteStore.put(
-        FRUIT_ELECTION.id(),
+        FRUIT_ELECTION.getId(),
         Vote.builder()
             .electionId(electionId)
             .choice("orange")
@@ -349,7 +349,7 @@ final class ElectionsIntegrationTest {
 
     // 19.
     voteStore.put(
-        FRUIT_ELECTION.id(),
+        FRUIT_ELECTION.getId(),
         Vote.builder()
             .electionId(electionId)
             .choice("orange")
@@ -358,7 +358,7 @@ final class ElectionsIntegrationTest {
 
     // 20.
     voteStore.put(
-        FRUIT_ELECTION.id(),
+        FRUIT_ELECTION.getId(),
         Vote.builder()
             .electionId(electionId)
             .choice("orange")

@@ -42,13 +42,13 @@ final class ElectionService {
 
   public Election createElection(Election election) {
     checkArgument(
-        election.id() == null,
+        election.getId() == null,
         "Cannot create an election if an ID has already been set");
     var newId = randomUUID().toString();
     var created = Election.builder()
         .id(newId)
-        .question(election.question())
-        .options(election.options())
+        .question(election.getQuestion())
+        .options(election.getOptions())
         .build();
     electionStore.put(newId, created);
     return created;
@@ -68,7 +68,7 @@ final class ElectionService {
     checkArgument(
         hasValidChoices(election, choices),
         "Choices did not match election options. Valid options are %s",
-        election.options());
+        election.getOptions());
     voteStore.put(electionId, Vote.builder().electionId(electionId).choices(choices).build());
   }
 
@@ -84,7 +84,7 @@ final class ElectionService {
 
     for (var vote : votes) {
       // Count the first choice that isn't eliminated yet.
-      for (var choice : vote.choices()) {
+      for (var choice : vote.getChoices()) {
         if (!eliminated.contains(choice)) {
           counter.put(choice, counter.getOrDefault(choice, 0) + 1);
 
@@ -115,6 +115,6 @@ final class ElectionService {
   }
 
   private static boolean hasValidChoices(Election election, ImmutableList<String> choices) {
-    return ImmutableSet.copyOf(election.options()).containsAll(choices);
+    return ImmutableSet.copyOf(election.getOptions()).containsAll(choices);
   }
 }

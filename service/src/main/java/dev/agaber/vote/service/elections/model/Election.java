@@ -1,6 +1,7 @@
 package dev.agaber.vote.service.elections.model;
 
 import lombok.Builder;
+import lombok.Data;
 import lombok.Singular;
 
 import java.util.List;
@@ -8,11 +9,17 @@ import java.util.List;
 /**
  * For now an election simply consists of a question and some options for voters to choose from.
  * See https://tinyurl.com/rcv-app-prd.
- *
- * @param id       unique identifier for this election.
- * @param question the thing voters need to decide on.
- * @param options  a list of options voters can choose from.
  */
+@Data
 @Builder(toBuilder = true)
-public record Election(String id, String question, @Singular List<String> options) {
+public final class Election {
+  /** Unique identifier for this election. */
+  public final String id;
+
+  /** The question voters need to decide on. */
+  public final String question;
+
+  /** A list of options voters can choose from. */
+  @Singular
+  public final List<String> options;
 }
