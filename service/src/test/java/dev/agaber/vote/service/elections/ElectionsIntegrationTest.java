@@ -44,7 +44,7 @@ final class ElectionsIntegrationTest {
 
   @Value(value = "${local.server.port}")
   private int port;
-  
+
   @BeforeEach
   public void setUp() throws Exception {
     // Reset storage to a base state before each test.
