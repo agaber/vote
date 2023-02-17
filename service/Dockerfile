@@ -2,7 +2,7 @@
 # https://docs.docker.com/language/java/build-images/
 
 # Build and run locally.
-# docker build --tag voteservice
+# docker build --tag voteservice .
 # docker run -dp 8080:8080 voteservice
 # docker ps
 # docker stop [name_from_ps]

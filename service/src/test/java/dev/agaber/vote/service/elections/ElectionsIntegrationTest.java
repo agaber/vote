@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -36,11 +37,14 @@ final class ElectionsIntegrationTest {
   private Multimap<String, Vote> voteStore;
 
   @Inject
+  MongoTemplate mongoTemplate;
+
+  @Inject
   private TestRestTemplate restTemplate;
 
   @Value(value = "${local.server.port}")
   private int port;
-
+  
   @BeforeEach
   public void setUp() throws Exception {
     // Reset storage to a base state before each test.
@@ -375,7 +379,7 @@ final class ElectionsIntegrationTest {
   }
 
   private String basePath() {
-    return String.format("http://localhost:%s/api/v1/elections", port);
+    return String.format("http://localhost:%s/vote/api/v1/elections", port);
   }
 
   private static final Election FRUIT_ELECTION = Election.builder()
