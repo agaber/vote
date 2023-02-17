@@ -27,26 +27,26 @@ spec:
         ports:
         - containerPort: 8080
         env:
-          - name: MONGO_USER
-            valueFrom:
-              secretKeyRef:
-                name: mongodb-secret
-                key: mongodb-username
-          - name: MONGO_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: mongodb-secret
-                key: mongodb-password
-          - name: MONGO_DATABASE
-            valueFrom:
-              configMapKeyRef:
-                name: mongodb-configmap
-                key: mongodb_database
-          - name: MONGO_CLUSTER
-            valueFrom:
-              configMapKeyRef:
-                name: mongodb-configmap
-                key: mongodb_cluster
+        - name: MONGO_USER
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secret
+              key: mongodb-username
+        - name: MONGO_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secret
+              key: mongodb-password
+        - name: MONGO_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: voteapi-configmap
+              key: mongodb_database
+        - name: MONGO_CLUSTER
+          valueFrom:
+            configMapKeyRef:
+              name: voteapi-configmap
+              key: mongodb_cluster
 ---
 
 apiVersion: v1
@@ -58,10 +58,10 @@ spec:
     app: voteapi
   type: LoadBalancer  
   ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 8080
-      nodePort: 30001
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+    nodePort: 30001
 ---
 
 apiVersion: networking.k8s.io/v1
