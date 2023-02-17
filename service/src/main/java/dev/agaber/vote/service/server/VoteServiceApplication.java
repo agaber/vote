@@ -1,5 +1,7 @@
 package dev.agaber.vote.service.server;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -18,12 +20,15 @@ import org.springframework.context.annotation.Bean;
         "dev.agaber.vote.service.server",
     })
 public class VoteServiceApplication {
+  private static final Logger LOGGER = LoggerFactory.getLogger(VoteServiceApplication.class);
+
   @Bean
   public ServletRegistrationBean servletRegistrationBean(){
     return new ServletRegistrationBean(new HealthzServlet(), "/healthz");
   }
 
   public static void main(String... args) {
+    LOGGER.atInfo().log("Staring...");
     SpringApplication.run(VoteServiceApplication.class, args);
   }
 }
