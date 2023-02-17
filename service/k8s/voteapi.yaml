@@ -75,7 +75,7 @@ spec:
   - host: agaber.dev
     http:
       paths:
-      - path: /api/.*
+      - path: /vote/api/.*
         pathType: Prefix
         backend:
           service:

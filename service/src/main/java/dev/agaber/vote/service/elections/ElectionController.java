@@ -23,7 +23,7 @@ import java.util.List;
  * executed when an API method is called.
  */
 @RestController
-@RequestMapping("/api/v1/elections")
+@RequestMapping("/vote/api/v1/elections")
 final class ElectionController {
   private final ElectionService electionService;
 
