@@ -13,10 +13,11 @@ import org.bson.types.ObjectId;
  * <p>There's probably a more clever Springy way to deal with this but...
  *
  * <ul>
- *   <li>strongly prefer exposing a single string ID in the API rather than an ObjectID which may be
- *   vendor specific and leaks implementation details out of the API and anyway...
- *   <li>it's generally good practice to separate API objects from database/backend objects so
- *   there's that. :\
+ *   <li>strongly prefer exposing a single string ID in the API rather than an
+ *   ObjectID which may be vendor specific and leaks implementation details out
+ *   of the API and anyway...
+ *   <li>it's generally good practice to separate API objects from database
+ *   objects so there's that. :\
  * </ul>
  */
 public final class Converters {
@@ -38,8 +39,8 @@ public final class Converters {
     return VOTE_CONVERTER.convert(vote);
   }
 
-  public static String toId(ObjectId objectd) {
-    return OBJECTID_CONVERTER.reverse().convert(objectd);
+  public static String toId(ObjectId objectId) {
+    return OBJECTID_CONVERTER.reverse().convert(objectId);
   }
 
   public static ObjectId toObjectId(String id) {
@@ -47,11 +48,11 @@ public final class Converters {
   }
 
   private static final ElectionElectionDocumentConverter ELECTION_CONVERTER =
-      ElectionElectionDocumentConverter.getInstance();
+      new ElectionElectionDocumentConverter();
 
   private static final ObjectIdConverter OBJECTID_CONVERTER =
-      ObjectIdConverter.getInstance();
+      new ObjectIdConverter();
 
   private static final VoteVoteDocumentConverter VOTE_CONVERTER =
-      VoteVoteDocumentConverter.getInstance();
+      new VoteVoteDocumentConverter();
 }

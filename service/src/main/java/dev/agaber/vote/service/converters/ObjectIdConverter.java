@@ -7,11 +7,6 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class ObjectIdConverter extends Converter<String, ObjectId> {
-  private static final ObjectIdConverter INSTANCE = new ObjectIdConverter();
-
-  public static ObjectIdConverter getInstance() {
-    return INSTANCE;
-  }
 
   @Nullable
   @Override

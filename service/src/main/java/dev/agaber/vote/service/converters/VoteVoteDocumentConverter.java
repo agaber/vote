@@ -6,12 +6,6 @@ import dev.agaber.vote.service.storage.VoteDocument;
 import com.google.common.base.Converter;
 
 public class VoteVoteDocumentConverter extends Converter<Vote, VoteDocument> {
-  private static final VoteVoteDocumentConverter INSTANCE =
-      new VoteVoteDocumentConverter();
-
-  public static VoteVoteDocumentConverter getInstance() {
-    return INSTANCE;
-  }
 
   @Override
   protected VoteDocument doForward(Vote vote) {
