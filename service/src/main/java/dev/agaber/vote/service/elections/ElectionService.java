@@ -1,17 +1,21 @@
 package dev.agaber.vote.service.elections;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static java.util.UUID.randomUUID;
+import static com.google.common.collect.ImmutableList.toImmutableList;
+import static dev.agaber.vote.service.converters.Converters.toDocument;
+import static dev.agaber.vote.service.converters.Converters.toObjectId;
+import static dev.agaber.vote.service.converters.Converters.toResource;
 import static java.util.function.Predicate.not;
 
-import dev.agaber.vote.service.elections.inject.Annotations.ElectionStore;
-import dev.agaber.vote.service.elections.inject.Annotations.VoteStore;
-import dev.agaber.vote.service.elections.model.Election;
-import dev.agaber.vote.service.elections.model.Vote;
+import dev.agaber.vote.service.converters.Converters;
+import dev.agaber.vote.service.storage.ElectionDocument;
+import dev.agaber.vote.service.storage.ElectionRepository;
+import dev.agaber.vote.service.storage.VoteDocument;
+import dev.agaber.vote.service.storage.VoteRepository;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Multimap;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -27,56 +31,54 @@ import java.util.Set;
  */
 @Service
 final class ElectionService {
-  private final Map<String, Election> electionStore;
-  private final Multimap<String, Vote> voteStore;
+  private final ElectionRepository electionRepository;
+  private final VoteRepository voteRepository;
 
   @Inject
   ElectionService(
-      @ElectionStore Map<String, Election> electionStore,
-      @VoteStore Multimap<String, Vote> voteStore) {
-    this.electionStore = electionStore;
-    this.voteStore = voteStore;
+      ElectionRepository electionRepository,
+      VoteRepository voteRepository) {
+    this.electionRepository = electionRepository;
+    this.voteRepository = voteRepository;
   }
 
   public Election createElection(Election election) {
     checkArgument(
         election.getId() == null,
         "Cannot create an election if an ID has already been set");
-    var newId = randomUUID().toString();
-    var created = Election.builder()
-        .id(newId)
-        .question(election.getQuestion())
-        .options(election.getOptions())
-        .build();
-    electionStore.put(newId, created);
-    return created;
+    return toResource(electionRepository.insert(toDocument(election)));
   }
 
   public Optional<Election> getById(String id) {
-    return Optional.ofNullable(electionStore.getOrDefault(id, null));
+    return electionRepository.findById(toObjectId(id)).map(Converters::toResource);
   }
 
   public ImmutableList<Election> listElections() {
-    return ImmutableList.copyOf(electionStore.values());
+    var documents = electionRepository.findAll();
+    return documents.stream().map(Converters::toResource).collect(toImmutableList());
   }
 
-  public void vote(String electionId, ImmutableList<String> choices) {
-    checkArgument(electionStore.containsKey(electionId), "No election with ID %s", electionId);
-    var election = electionStore.get(electionId);
+  public Vote vote(String electionId, ImmutableList<String> choices) {
+    var maybeElection = electionRepository.findById(toObjectId(electionId));
+    checkArgument(maybeElection.isPresent(), "No election with ID %s", electionId);
     checkArgument(
-        hasValidChoices(election, choices),
+        hasValidChoices(maybeElection.get(), choices),
         "Choices did not match election options. Valid options are %s",
-        election.getOptions());
-    voteStore.put(electionId, Vote.builder().electionId(electionId).choices(choices).build());
+        maybeElection.get().getOptions());
+    var electionObjectId = toObjectId(electionId);
+    var voteDoc = VoteDocument.builder().electionObjectId(electionObjectId).choices(choices).build();
+    return toResource(voteRepository.insert(voteDoc));
   }
 
   public String tally(String electionId) {
-    checkArgument(electionStore.containsKey(electionId), "No election with ID %s", electionId);
-    var votes = ImmutableList.copyOf(voteStore.get(electionId));
+    var maybeElection = electionRepository.findById(new ObjectId(electionId));
+    checkArgument(maybeElection.isPresent(), "No election with ID %s", electionId);
+    var electionObjectId = toObjectId(electionId);
+    var votes = ImmutableList.copyOf(voteRepository.findAllByElectionObjectId(electionObjectId));
     return votes.isEmpty() ? "" : tally(votes, new HashSet<>());
   }
 
-  private static String tally(ImmutableList<Vote> votes, Set<String> eliminated) {
+  private static String tally(ImmutableList<VoteDocument> votes, Set<String> eliminated) {
     var counter = new HashMap<String, Integer>();
     var numVoters = votes.size();
 
@@ -115,7 +117,7 @@ final class ElectionService {
     return minChoice;
   }
 
-  private static boolean hasValidChoices(Election election, ImmutableList<String> choices) {
+  private static boolean hasValidChoices(ElectionDocument election, ImmutableList<String> choices) {
     return ImmutableSet.copyOf(election.getOptions()).containsAll(choices);
   }
 }

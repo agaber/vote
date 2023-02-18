@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 /**
  * The main entry point for this service. It will launch an embedded Tomcat server.
@@ -18,7 +19,9 @@ import org.springframework.context.annotation.Bean;
     scanBasePackages = {
         "dev.agaber.vote.service.elections",
         "dev.agaber.vote.service.server",
+        "dev.agaber.vote.service.storage",
     })
+@EnableMongoRepositories("dev.agaber.vote.service.storage")
 public class VoteServiceApplication {
   private static final Logger LOGGER = LoggerFactory.getLogger(VoteServiceApplication.class);
 

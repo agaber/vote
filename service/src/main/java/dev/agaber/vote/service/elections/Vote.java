@@ -1,4 +1,4 @@
-package dev.agaber.vote.service.elections.model;
+package dev.agaber.vote.service.elections;
 
 import lombok.Builder;
 import lombok.Data;
@@ -10,8 +10,10 @@ import java.util.List;
 @Data
 @Builder(toBuilder = true)
 public final class Vote {
+  private final String id;
+
   /** String identifying the election this vote is for. */
-  public final String electionId;
+  private final String electionId;
 
   /**
    * The user's actual votes. The string choices must match the option strings in the parent
@@ -21,5 +23,5 @@ public final class Vote {
    * will get lost.
    */
   @Singular
-  public final List<String> choices;
+  private final List<String> choices;
 }

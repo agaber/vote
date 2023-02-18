@@ -1,4 +1,4 @@
-package dev.agaber.vote.service.elections.model;
+package dev.agaber.vote.service.elections;
 
 import lombok.Builder;
 import lombok.Data;
@@ -14,12 +14,12 @@ import java.util.List;
 @Builder(toBuilder = true)
 public final class Election {
   /** Unique identifier for this election. */
-  public final String id;
+  private final String id;
 
   /** The question voters need to decide on. */
-  public final String question;
+  private final String question;
 
   /** A list of options voters can choose from. */
   @Singular
-  public final List<String> options;
+  private final List<String> options;
 }

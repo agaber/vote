@@ -1,0 +1,216 @@
+[{
+  "_id": {
+    "$oid": "63f0299e09b1cd387c63d6a9"
+  },
+  "electionObjectId": {
+    "$oid": "63f00c68a5050bd4babf3de1"
+  },
+  "choices": [
+    "apple",
+    "avocado",
+    "banana",
+    "orange",
+    "tomato"
+  ]
+},{
+  "_id": {
+    "$oid": "63f0299f09b1cd387c63d6aa"
+  },
+  "electionObjectId": {
+    "$oid": "63f00c68a5050bd4babf3de1"
+  },
+  "choices": [
+    "banana",
+    "avocado",
+    "orange",
+    "tomato",
+    "apple"
+  ]
+},{
+  "_id": {
+    "$oid": "63f0299f09b1cd387c63d6ab"
+  },
+  "electionObjectId": {
+    "$oid": "63f00c68a5050bd4babf3de1"
+  },
+  "choices": [
+    "banana",
+    "avocado"
+  ]
+},{
+  "_id": {
+    "$oid": "63f0299f09b1cd387c63d6ac"
+  },
+  "electionObjectId": {
+    "$oid": "63f00c68a5050bd4babf3de1"
+  },
+  "choices": [
+    "banana",
+    "avocado"
+  ]
+},{
+  "_id": {
+    "$oid": "63f0299f09b1cd387c63d6ad"
+  },
+  "electionObjectId": {
+    "$oid": "63f00c68a5050bd4babf3de1"
+  },
+  "choices": [
+    "banana",
+    "avocado"
+  ]
+},{
+  "_id": {
+    "$oid": "63f0299f09b1cd387c63d6ae"
+  },
+  "electionObjectId": {
+    "$oid": "63f00c68a5050bd4babf3de1"
+  },
+  "choices": [
+    "banana",
+    "avocado"
+  ]
+},{
+  "_id": {
+    "$oid": "63f0299f09b1cd387c63d6af"
+  },
+  "electionObjectId": {
+    "$oid": "63f00c68a5050bd4babf3de1"
+  },
+  "choices": [
+    "avocado"
+  ]
+},{
+  "_id": {
+    "$oid": "63f0299f09b1cd387c63d6b0"
+  },
+  "electionObjectId": {
+    "$oid": "63f00c68a5050bd4babf3de1"
+  },
+  "choices": [
+    "avocado"
+  ]
+},{
+  "_id": {
+    "$oid": "63f0299f09b1cd387c63d6b1"
+  },
+  "electionObjectId": {
+    "$oid": "63f00c68a5050bd4babf3de1"
+  },
+  "choices": [
+    "avocado"
+  ]
+},{
+  "_id": {
+    "$oid": "63f0299f09b1cd387c63d6b2"
+  },
+  "electionObjectId": {
+    "$oid": "63f00c68a5050bd4babf3de1"
+  },
+  "choices": [
+    "avocado"
+  ]
+},{
+  "_id": {
+    "$oid": "63f0299f09b1cd387c63d6b3"
+  },
+  "electionObjectId": {
+    "$oid": "63f00c68a5050bd4babf3de1"
+  },
+  "choices": [
+    "avocado"
+  ]
+},{
+  "_id": {
+    "$oid": "63f0299f09b1cd387c63d6b4"
+  },
+  "electionObjectId": {
+    "$oid": "63f00c68a5050bd4babf3de1"
+  },
+  "choices": [
+    "tomato"
+  ]
+},{
+  "_id": {
+    "$oid": "63f0299f09b1cd387c63d6b5"
+  },
+  "electionObjectId": {
+    "$oid": "63f00c68a5050bd4babf3de1"
+  },
+  "choices": [
+    "tomato"
+  ]
+},{
+  "_id": {
+    "$oid": "63f0299f09b1cd387c63d6b6"
+  },
+  "electionObjectId": {
+    "$oid": "63f00c68a5050bd4babf3de1"
+  },
+  "choices": [
+    "tomato"
+  ]
+},{
+  "_id": {
+    "$oid": "63f029a009b1cd387c63d6b7"
+  },
+  "electionObjectId": {
+    "$oid": "63f00c68a5050bd4babf3de1"
+  },
+  "choices": [
+    "tomato"
+  ]
+},{
+  "_id": {
+    "$oid": "63f029a009b1cd387c63d6b8"
+  },
+  "electionObjectId": {
+    "$oid": "63f00c68a5050bd4babf3de1"
+  },
+  "choices": [
+    "tomato"
+  ]
+},{
+  "_id": {
+    "$oid": "63f029a009b1cd387c63d6b9"
+  },
+  "electionObjectId": {
+    "$oid": "63f00c68a5050bd4babf3de1"
+  },
+  "choices": [
+    "tomato"
+  ]
+},{
+  "_id": {
+    "$oid": "63f029a009b1cd387c63d6ba"
+  },
+  "electionObjectId": {
+    "$oid": "63f00c68a5050bd4babf3de1"
+  },
+  "choices": [
+    "orange",
+    "tomato"
+  ]
+},{
+  "_id": {
+    "$oid": "63f029a009b1cd387c63d6bb"
+  },
+  "electionObjectId": {
+    "$oid": "63f00c68a5050bd4babf3de1"
+  },
+  "choices": [
+    "orange",
+    "tomato"
+  ]
+},{
+  "_id": {
+    "$oid": "63f029a009b1cd387c63d6bc"
+  },
+  "electionObjectId": {
+    "$oid": "63f00c68a5050bd4babf3de1"
+  },
+  "choices": [
+    "orange",
+    "tomato"
+  ]
+}]

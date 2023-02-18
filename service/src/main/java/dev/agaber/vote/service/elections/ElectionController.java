@@ -1,7 +1,5 @@
 package dev.agaber.vote.service.elections;
 
-import dev.agaber.vote.service.elections.model.Election;
-
 import com.google.common.collect.ImmutableList;
 import lombok.Builder;
 import lombok.Singular;
@@ -75,8 +73,8 @@ final class ElectionController {
   @PostMapping("/{electionId}:vote")
   public ResponseEntity vote(
       @PathVariable String electionId, @RequestBody VoteRequest voteRequest) {
-    electionService.vote(electionId, ImmutableList.copyOf(voteRequest.choices));
-    return ResponseEntity.ok().build();
+    var vote = electionService.vote(electionId, ImmutableList.copyOf(voteRequest.choices));
+    return ResponseEntity.ok(vote);
   }
 
   /**
