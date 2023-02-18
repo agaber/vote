@@ -4,5 +4,3 @@ metadata:
   name: voteapi-configmap
 data:
   mongodb_database: vote-db:dev
-  mongodb_cluster: us-central-gcp-cluster.yilqhk4.mongodb.net/test
-
