@@ -21,10 +21,11 @@ import com.google.common.collect.ImmutableList;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -40,8 +41,9 @@ import java.nio.file.Files;
 import java.util.List;
 
 /** Starts a local server and communicates with actual HTTP REST. */
+@AutoConfigureDataMongo
 @ContextConfiguration(classes = VoteServiceApplication.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 final class ElectionsIntegrationTest {
   @Inject
   private MongoTemplate mongoTemplate;
@@ -49,8 +51,8 @@ final class ElectionsIntegrationTest {
   @Inject
   private TestRestTemplate restTemplate;
 
-  @Value(value = "${local.server.port}")
-  private int port;
+  @LocalServerPort
+  private int port = 8085;
 
   @Inject
   private ObjectMapper objectMapper;
