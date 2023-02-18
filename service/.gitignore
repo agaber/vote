@@ -38,3 +38,5 @@ out/
 
 .env
 k8s/secrets/*
+!k8s/secrets/example.yaml
+!k8s/secrets/README.md

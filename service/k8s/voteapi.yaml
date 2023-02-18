@@ -1,8 +1,8 @@
 # To set a namespace for different environments, see
 # https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/
 # $ kubectl config view
-# $ kubectl config set-context dev --namespace=dev --cluster=minikube --user=minikube
-# $ kubectl config set-context prod --namespace=prod --cluster=minikube --user=minikube
+# $ kubectl create namespace voteservice-dev
+# $ kubectl config set-context dev --namespace=voteservice-dev --cluster=minikube --user=minikube
 # $ kubectl config use-context dev
 
 apiVersion: apps/v1
@@ -27,26 +27,16 @@ spec:
         ports:
         - containerPort: 8080
         env:
-        - name: MONGO_USER
-          valueFrom:
-            secretKeyRef:
-              name: mongodb-secret
-              key: mongodb-username
-        - name: MONGO_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mongodb-secret
-              key: mongodb-password
         - name: MONGO_DATABASE
           valueFrom:
             configMapKeyRef:
               name: voteapi-configmap
               key: mongodb_database
-        - name: MONGO_CLUSTER
+        - name: MONGO_CONN_STR
           valueFrom:
-            configMapKeyRef:
-              name: voteapi-configmap
-              key: mongodb_cluster
+            secretKeyRef:
+              name: mongodb-secret
+              key: mongo-conn-str
 ---
 
 apiVersion: v1
