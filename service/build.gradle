@@ -31,9 +31,6 @@ dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-web'
   implementation 'org.springframework.boot:spring-boot-starter-parent:3.0.2'
   testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:4.5.1'
+  testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo.spring30x:4.5.2'
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
-
-tasks.named('test') {
-	useJUnitPlatform()
 }

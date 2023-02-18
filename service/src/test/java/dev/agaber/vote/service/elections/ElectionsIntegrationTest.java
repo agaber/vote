@@ -1,6 +1,5 @@
 package dev.agaber.vote.service.elections;
 
-import static java.util.stream.Collectors.joining;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import dev.agaber.vote.service.converters.Converters;
@@ -30,6 +29,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 
 import javax.inject.Inject;
@@ -43,7 +43,10 @@ import java.util.List;
 /** Starts a local server and communicates with actual HTTP REST. */
 @AutoConfigureDataMongo
 @ContextConfiguration(classes = VoteServiceApplication.class)
-@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
+@SpringBootTest(
+    properties = "de.flapdoodle.mongodb.embedded.version=5.0.5",
+    webEnvironment = WebEnvironment.DEFINED_PORT)
+@DirtiesContext
 final class ElectionsIntegrationTest {
   @Inject
   private MongoTemplate mongoTemplate;
@@ -212,7 +215,7 @@ final class ElectionsIntegrationTest {
   private static final class ObjectIdDeserializer extends JsonDeserializer<ObjectId> {
     @Override
     public ObjectId deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
-      JsonNode oid = ((JsonNode)p.readValueAsTree()).get("$oid");
+      JsonNode oid = ((JsonNode) p.readValueAsTree()).get("$oid");
       return new ObjectId(oid.asText());
     }
   }
@@ -359,7 +362,8 @@ final class ElectionsIntegrationTest {
     objIdMod.addDeserializer(ObjectId.class, new ObjectIdDeserializer());
     objectMapper.registerModule(objIdMod);
     return ImmutableList.copyOf(
-        objectMapper.readValue(json, new TypeReference<List<VoteDocument>>(){}));
+        objectMapper.readValue(json, new TypeReference<List<VoteDocument>>() {
+        }));
   }
 
   private static String read(String filename) throws IOException, URISyntaxException {
