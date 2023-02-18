@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +18,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 /**
- * Defines the public REST API for the elections resource. The controller is the first code
+ * Defines the public REST API for the elections resource. The controller is the first logic
  * executed when an API method is called.
  */
 @RestController
@@ -50,8 +51,14 @@ final class ElectionController {
 
   /** Does not allow updates to an election once created. */
   @PatchMapping
+  public ResponseEntity<Election> partialUpdate() {
+    // Draft status cannot be changed once published.
+    return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+  }
+
+  /** Does not allow updates to an election once created. */
+  @PutMapping
   public ResponseEntity<Election> update() {
-    // TODO: add an isDraft field (or status field) to election and only allow updates to drafts.
     // Draft status cannot be changed once published.
     return new ResponseEntity<>(HttpStatus.FORBIDDEN);
   }

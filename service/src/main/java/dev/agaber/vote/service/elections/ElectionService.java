@@ -25,10 +25,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-/**
- * Performs all business logic related to elections. For early iterations, this class will perform
- * all logic in memory.
- */
+/** Manages election logic, including storing election configs and tallying votes. */
 @Service
 final class ElectionService {
   private final ElectionRepository electionRepository;
