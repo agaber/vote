@@ -13,11 +13,11 @@ The values in the YAML file must be base64 encoded. **_Please be careful of newl
 ###### Option 1
 ```shell
 # -n omits the trailing new line
-$ echo -n "password" | base64
+$ echo -n "password" | base64 -w 0
 ```
 
 ###### Option 2
 ```shell
-cat /tmp/pass.txt | tr -d '\n' | base64
+cat /tmp/pass.txt | tr -d '\n' | base64 -w 0
 ```
 
