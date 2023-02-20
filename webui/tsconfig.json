@@ -1,4 +1,7 @@
 /* To learn more about this file see: https://angular.io/config/tsconfig. */
+// Customization to this file:
+// * compilerOptions.paths allows import paths that start with // to be treated
+//   as absolute paths instead of relative paths.
 {
   "compileOnSave": false,
   "compilerOptions": {
@@ -22,7 +25,10 @@
     "lib": [
       "ES2022",
       "dom"
-    ]
+    ],
+    "paths": {
+      "//*": ["src/*"],
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
