@@ -1,5 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@/app/app.module';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CreateElectionComponent } from '@/app/components/create-election/create-election.component';
 
