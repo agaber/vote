@@ -58,6 +58,7 @@ spec:
   tls:
   - hosts:
     - agaber.dev
+    - apis.agaber.dev
     secretName: voteapi-tls-secret
   rules:
   - host: agaber.dev
