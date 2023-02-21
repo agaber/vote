@@ -1,0 +1,19 @@
+mat-form-field {
+  width: 100%;
+}
+
+#option-input input {
+  width: 97%;
+}
+
+#option-input button {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  float: right;
+}
+
+#option-input button mat-icon {
+  font-size: 20px;
+  height: 16px;
+}
