@@ -70,3 +70,13 @@ spec:
             name: voteapi-service
             port:
               number: 80
+  - host: apis.agaber.dev
+    http:
+      paths:
+        - path: /vote/api/.*
+          pathType: Prefix
+          backend:
+            service:
+              name: voteapi-service
+              port:
+                number: 80
