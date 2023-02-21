@@ -36,7 +36,7 @@
             "scripts": []
           },
           "configurations": {
-            "production": {
+            "prod": {
               "budgets": [
                 {
                   "type": "initial",
@@ -49,9 +49,15 @@
                   "maximumError": "4kb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
             },
-            "development": {
+            "local": {
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
@@ -60,19 +66,20 @@
               "namedChunks": true
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "prod"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
-            "production": {
-              "browserTarget": "webui:build:production"
+            "prod": {
+              "browserTarget": "webui:build:prod"
             },
-            "development": {
-              "browserTarget": "webui:build:development"
+            "local": {
+              "browserTarget": "webui:build:local",
+              "proxyConfig": "src/proxy.conf.json"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "local"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
