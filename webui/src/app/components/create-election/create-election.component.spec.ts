@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppModule } from '@/app/app.module';
 
-import { CreateElectionComponent } from './create-election.component';
+import { CreateElectionComponent } from '@/app/components/create-election/create-election.component';
 
 describe('CreateElectionComponent', () => {
   let component: CreateElectionComponent;
@@ -8,9 +9,9 @@ describe('CreateElectionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [AppModule],
       declarations: [CreateElectionComponent]
-    })
-      .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CreateElectionComponent);
     component = fixture.componentInstance;
