@@ -24,7 +24,7 @@ describe('ElectionService', () => {
   });
 
   it('test environment variables should be enabled', () => {
-    expect(env.apiUrl).toEqual("htpps://notreal.test/vote/api/v1");
+    expect(env.apiUrl).toEqual("https://notreal.test/vote/api/v1");
   });
 
   it('should create new elections', () => {
