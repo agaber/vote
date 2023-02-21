@@ -17,7 +17,7 @@ export class ElectionService {
   constructor(private http: HttpClient) { }
 
   create(election: Election): Observable<Election> {
-    const url = `${env.apiUrl}/vote/api/v1/elections`
+    const url = `${env.apiUrl}/elections`
     return this.http.post<Election>(url, election, HTTP_OPTONS);
   }
 }

@@ -1,3 +1,3 @@
 export const environment = {
-  apiUrl: 'https://apis.agaber.dev'
+  apiUrl: 'https://apis.agaber.dev/vote/api/v1'
 };

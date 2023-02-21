@@ -1,5 +1,5 @@
-// Everything running on localhost.
-// This file shold be swapped out when running in any environment.
+// These configs will be used in unit tests.
+// The values here should never point anywhere important or remote.
 export const environment = {
-  apiUrl: 'http://localhost:8080'
+  apiUrl: 'htpps://notreal.test/vote/api/v1',
 };
