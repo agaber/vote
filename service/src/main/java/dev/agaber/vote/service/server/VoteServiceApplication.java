@@ -23,7 +23,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
     })
 @EnableMongoRepositories("dev.agaber.vote.service.storage")
 public class VoteServiceApplication {
-  private static final Logger LOGGER = LoggerFactory.getLogger(VoteServiceApplication.class);
+  private static final Logger logger = LoggerFactory.getLogger(VoteServiceApplication.class);
 
   @Bean
   public ServletRegistrationBean servletRegistrationBean(){
@@ -31,7 +31,7 @@ public class VoteServiceApplication {
   }
 
   public static void main(String... args) {
-    LOGGER.atInfo().log("Staring...");
+    logger.atInfo().log("Staring...");
     SpringApplication.run(VoteServiceApplication.class, args);
   }
 }
