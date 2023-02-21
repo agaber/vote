@@ -58,6 +58,7 @@ spec:
   tls:
   - hosts:
     - agaber.dev
+    - apis.agaber.dev
     secretName: voteapi-tls-secret
   rules:
   - host: agaber.dev
@@ -70,3 +71,13 @@ spec:
             name: voteapi-service
             port:
               number: 80
+  - host: apis.agaber.dev
+    http:
+      paths:
+        - path: /vote/api/.*
+          pathType: Prefix
+          backend:
+            service:
+              name: voteapi-service
+              port:
+                number: 80
