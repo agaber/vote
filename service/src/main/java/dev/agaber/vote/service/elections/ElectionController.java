@@ -32,7 +32,6 @@ final class ElectionController {
     this.electionService = electionService;
   }
 
-//  @CrossOrigin(origins = "http://localhost:4200")
   @PostMapping
   public ResponseEntity<Election> create(@RequestBody Election election) {
     var createdElection = electionService.createElection(election);
