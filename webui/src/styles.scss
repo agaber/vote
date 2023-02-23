@@ -10,3 +10,15 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   margin: 0;
 }
+
+mat-card {
+  padding: 10px;
+}
+
+mat-card-title {
+  padding-bottom: 15px;
+}
+
+mat-form-field {
+  width: 100%;
+}
