@@ -4,3 +4,4 @@ metadata:
   name: voteapi-configmap
 data:
   mongodb_database: vote-db:dev
+  allowed_origins: *
