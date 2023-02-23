@@ -65,9 +65,9 @@ export class CreateElectionComponent {
         this.router.navigate([`/vote/${savedElection.id}`]);
       },
       error => {
-        console.log(error);
-        const message = `Oops! There was an unexpected error: ${error.statusText}`;
-        this.snackBar.open(message);
+        const message =
+          `Oops! There was an unexpected error. Please try again later.\nError: "${error.statusText}"`;
+        this.snackBar.open(message, 'Dismiss', { panelClass: 'snackbar-text' });
         this.setLoading(false);
       },
       () => {
