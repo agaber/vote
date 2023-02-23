@@ -5,15 +5,17 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { AppComponent } from '@/app/components/app/app.component';
+import { AppMaterialModule } from '@/app/app-material.module';
 import { AppRoutingModule } from '@/app/app-routing.module';
-import { AppComponent } from '@/app/app.component';
-import { MaterialModule } from '@/app/material/material.module';
 import { CreateElectionComponent } from '@/app/components/create-election/create-election.component';
+import { VoteComponentComponent } from './components/vote/vote-component.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CreateElectionComponent,
+    VoteComponentComponent,
   ],
   imports: [
     BrowserModule,
@@ -21,7 +23,7 @@ import { CreateElectionComponent } from '@/app/components/create-election/create
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
-    MaterialModule,
+    AppMaterialModule,
     ReactiveFormsModule,
   ],
   providers: [],

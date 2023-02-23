@@ -22,7 +22,11 @@
         <div *ngFor="let option of options.controls; let i = index">
           <mat-form-field id="option-input" appearance="outline">
             <input autocomplete="off" matInput placeholder="Option {{i + 1}}" [formControlName]="i" />
-            <button aria-label="Remove option" (click)="onRemoveOption(i)" *ngIf="options.length > 1">
+            <button
+                aria-label="Remove option"
+                (click)="onRemoveOption(i)"
+                [disabled]="isLoading"
+                *ngIf="options.length > 1">
               <mat-icon>close</mat-icon>
             </button>
             <mat-error *ngIf="form.controls.options.at(i).invalid">
@@ -31,15 +35,24 @@
           </mat-form-field>
         </div>
 
-        <button mat-raised-button (click)="onAddOption()" *ngIf="form.controls.options.valid">
+        <button
+            mat-raised-button
+            (click)="onAddOption()"
+            [disabled]="isLoading"
+            *ngIf="form.controls.options.valid">
           <mat-icon>add</mat-icon> Add another option
         </button>
       </div>
 
       <mat-card-actions>
-        <button color="primary" mat-raised-button type="submit">
-          Create Election
-        </button>
+        <mat-spinner strokeWidth="2" diameter="30" *ngIf="isLoading"></mat-spinner>
+        <button
+          color="primary"
+          mat-raised-button
+          type="submit"
+          [disabled]="isLoading">
+        Create Election
+      </button>
     </mat-card-actions>
     </form>
   </mat-card-content>
