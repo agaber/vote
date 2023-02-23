@@ -61,11 +61,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - www.apis.agaber.dev
         - apis.agaber.dev
       secretName: voteapi-tls-secret
   rules:
-    - host: *.apis.agaber.dev
+    - host: apis.agaber.dev
       http:
         paths:
           - path: /vote/api/.*

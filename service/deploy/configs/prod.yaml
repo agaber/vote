@@ -4,4 +4,4 @@ metadata:
   name: voteapi-configmap
 data:
   mongodb_database: vote-db:prod
-  allowed_origins: agaber.dev,www.agaber.dev
+  allowed_origins: https://agaber.dev,https://www.agaber.dev,http://agaber.dev,http://www.agaber.dev
