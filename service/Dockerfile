@@ -9,7 +9,7 @@ COPY gradlew build.gradle settings.gradle ./
 COPY src ./src
 RUN ./gradlew clean build --no-daemon
 
-# Stage 1: Make the compiled jar ready for production.
+# Stage 2: Make the compiled jar ready for production.
 FROM eclipse-temurin:17-jdk-jammy
 WORKDIR /app
 COPY --from=build-stage /workspace/build/libs/voteservice.jar ./
