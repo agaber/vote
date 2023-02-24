@@ -60,19 +60,18 @@ export class CreateElectionComponent {
     };
 
     this.setLoading(true);
-    this.electionService.create(election).subscribe(
-      savedElection => {
+    this.electionService.create(election).subscribe({
+      next: savedElection => {
         this.router.navigate([`/vote/${savedElection.id}`]);
+        this.setLoading(false);
+        this.form.reset();
       },
-      error => {
+      error: error => {
         const message =
           `Oops! There was an unexpected error. Please try again later.\nError: "${error.statusText}"`;
         this.snackBar.open(message, 'Dismiss', { panelClass: 'snackbar-text' });
         this.setLoading(false);
-      },
-      () => {
-        this.setLoading(false);
-        this.form.reset();
-      });
+      }
+    });
   }
 }
