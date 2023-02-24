@@ -1,9 +1,7 @@
 <mat-card>
-  <mat-card-header>
-    <mat-card-title>Create an election</mat-card-title>
-  </mat-card-header>
-
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-card-title>Create an election</mat-card-title>
+
     <mat-card-content>
       <mat-form-field appearance="outline" class="single-item-input" floatLabel="always" >
         <mat-label>Question</mat-label>
@@ -48,7 +46,6 @@
     </mat-card-content>
 
     <mat-card-actions align="end">
-      <mat-spinner strokeWidth="2" diameter="30" *ngIf="isLoading"></mat-spinner>
       <button
           color="primary"
           mat-raised-button
@@ -58,4 +55,8 @@
       </button>
     </mat-card-actions>
   </form>
+
+  <mat-card-footer>
+    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+  </mat-card-footer>
 </mat-card>
