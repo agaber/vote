@@ -1,0 +1,13 @@
+<button
+    aria-label="Help button"
+    disableRipple
+    [matTooltip]="text"
+    matTooltipHideDelay="200"
+    matTooltipPosition="below"
+    #tooltip="matTooltip">
+  <mat-icon>help_outline</mat-icon>
+</button>
+
+<div #content style="display: none;">
+  <ng-content></ng-content>
+</div>

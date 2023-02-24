@@ -8,7 +8,13 @@
 
     <div cdkDropListGroup>
       <div class="options-container">
-        <h3>Ballot options</h3>
+        <h3>
+          Ballot options
+          <app-help-icon-button>
+            These are the available candidates to vote on for this election.
+            Drag your choices to the right hand side to make your selections.
+          </app-help-icon-button>
+        </h3>
         <div
             cdkDropList
             class="options-list"
@@ -19,7 +25,13 @@
       </div>
 
       <div class="choices-container">
-        <h3>Your choices</h3>
+        <h3>
+          Your choices
+          <app-help-icon-button>
+            This list contains your selections in order of preference. You can
+            select one or more candidates.
+          </app-help-icon-button>
+        </h3>
         <div
             cdkDropList
             class="options-list"

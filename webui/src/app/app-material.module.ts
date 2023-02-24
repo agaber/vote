@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 const MATERIAL_COMPONENTS = [
   DragDropModule,
@@ -18,6 +19,7 @@ const MATERIAL_COMPONENTS = [
   MatInputModule,
   MatProgressBarModule,
   MatSnackBarModule,
+  MatTooltipModule,
 ];
 
 @NgModule({
