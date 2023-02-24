@@ -42,7 +42,7 @@ import java.util.List;
 
 /** Starts a local server and communicates with actual HTTP REST. */
 @AutoConfigureDataMongo
-@ContextConfiguration(classes = VoteServiceApplication.class)
+@ContextConfiguration(classes = {VoteServiceApplication.class})
 @SpringBootTest(
     properties = "de.flapdoodle.mongodb.embedded.version=5.0.5",
     webEnvironment = WebEnvironment.DEFINED_PORT)
@@ -239,16 +239,23 @@ final class ElectionsIntegrationTest {
   public void tally() throws Exception {
     // Arrange: load the database with saved data described in the javadoc.
     var electionId = Converters.toObjectId(FRUIT_ELECTION.getId());
-    var votes = parseVotes(read("tally_fruit_election.json"));
+    var votes = parseVotes(read("tally_fruit_election_data.json"));
     votes.stream().forEach(v -> mongoTemplate.insert(v, "Votes"));
 
     // Act
     var path = String.format("%s/%s:tally", basePath(), electionId);
-    var response = restTemplate.postForEntity(path, null, String.class);
+    var response = restTemplate.postForEntity(path, null, ElectionResult.class);
 
     // Assert.
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-    assertThat(response.getBody()).isEqualTo("avocado");
+    assertThat(response.getBody().getWinner()).isEqualTo("avocado");
+    assertThat(response.getBody().getElection()).isEqualTo(FRUIT_ELECTION);
+
+    // Compare the raw response to a JSON string from file.
+    // I'm being lazy here but constructing the rounds response in Java kinda sucks.
+    // Serializing things with this framework kinda sucks too.
+     var rawResponse = restTemplate.postForObject(path, null, String.class).toString();
+     assertThat(rawResponse).isEqualTo(read("tally_fruit_election_expected_response.json"));
   }
 
   @Test
@@ -279,10 +286,10 @@ final class ElectionsIntegrationTest {
 
     // Act
     var path = String.format("%s/%s:tally", basePath(), electionId);
-    var result = restTemplate.postForObject(path, null, String.class);
+    var result = restTemplate.postForObject(path, null, ElectionResult.class);
 
     // Assert.
-    assertThat(result).isEqualTo("pizza");
+    assertThat(result.getWinner()).isEqualTo("pizza");
   }
 
   @Test
@@ -299,10 +306,10 @@ final class ElectionsIntegrationTest {
 
     // Act
     var path = String.format("%s/%s:tally", basePath(), electionId);
-    var result = restTemplate.postForObject(path, null, String.class);
+    var result = restTemplate.postForObject(path, null, ElectionResult.class);
 
     // Assert.
-    assertThat(result).isEqualTo("sandwich");
+    assertThat(result.getWinner()).isEqualTo("sandwich");
   }
 
   @Test
@@ -326,10 +333,10 @@ final class ElectionsIntegrationTest {
 
     // Act
     var path = String.format("%s/%s:tally", basePath(), electionId);
-    var result = restTemplate.postForObject(path, null, String.class);
+    var result = restTemplate.postForObject(path, null, ElectionResult.class);
 
     // Assert - Expect it to take the first one.
-    assertThat(result).isEqualTo("sandwich");
+    assertThat(result.getWinner()).isEqualTo("sandwich");
   }
 
   @Test
@@ -339,11 +346,11 @@ final class ElectionsIntegrationTest {
 
     // Act
     var path = String.format("%s/%s:tally", basePath(), electionId);
-    var response = restTemplate.postForEntity(path, null, String.class);
+    var response = restTemplate.postForEntity(path, null, ElectionResult.class);
 
     // Assert - Expect it to return empty response (no winner).
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-    assertThat(response.getBody()).isNull();
+    assertThat(response.getBody().getWinner()).isNull();
   }
 
   private String basePath() {
@@ -362,8 +369,7 @@ final class ElectionsIntegrationTest {
     objIdMod.addDeserializer(ObjectId.class, new ObjectIdDeserializer());
     objectMapper.registerModule(objIdMod);
     return ImmutableList.copyOf(
-        objectMapper.readValue(json, new TypeReference<List<VoteDocument>>() {
-        }));
+        objectMapper.readValue(json, new TypeReference<List<VoteDocument>>() {}));
   }
 
   private static String read(String filename) throws IOException, URISyntaxException {
