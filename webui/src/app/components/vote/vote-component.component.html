@@ -32,6 +32,22 @@
   </mat-card-content>
 
   <mat-card-actions align="end">
+    <a
+        id="resultsLinkButton"
+        mat-flat-button
+        [disabled]="isLoadingElection"
+        [routerLink]="['results']">
+      See results
+    </a>
+
+    <button
+        id="resetButton"
+        mat-flat-button
+        [disabled]="isLoadingElection"
+        (click)="reset()">
+      Reset
+    </button>
+
     <button
         id="submitButton"
         color="primary"
@@ -41,14 +57,6 @@
         (click)="vote()">
       Submit
     </button>
-
-    <a
-        id="resultsLinkButton"
-        mat-flat-button
-        [disabled]="isLoadingElection"
-        [routerLink]="['vote/:electionId/results', election?.id]">
-      See results
-    </a>
   </mat-card-actions>
 
   <mat-card-footer>

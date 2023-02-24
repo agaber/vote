@@ -13,18 +13,18 @@ import { Election } from "@/app/model/election";
   templateUrl: 'vote-component.component.html',
 })
 export class VoteComponentComponent implements OnInit {
+  constructor(
+    private electionService: ElectionService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private snackBar: MatSnackBar) { }
+
   choices: string[] = [];
   election?: Election;
   isLoadingElection = false;
   isSubmitting = false;
   options: string[] = [];
   question?: string;
-
-  constructor(
-    private electionService: ElectionService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.isLoadingElection = true;
@@ -40,14 +40,12 @@ export class VoteComponentComponent implements OnInit {
       next: election => {
         this.choices = [];
         this.election = election;
-        this.options = election.options || [];
+        this.options = [...election.options || []];
         this.question = election.question;
         this.isLoadingElection = false;
       },
       error: err => {
-        const message =
-          `Oops! There was an unexpected error. Please try again later.\nError: "${err.statusText}"`;
-        this.snackBar.open(message, 'Dismiss', { panelClass: 'snackbar-text' });
+        this.showErrorMessage(err);
         this.isLoadingElection = false;
       }
     });
@@ -66,8 +64,29 @@ export class VoteComponentComponent implements OnInit {
     }
   }
 
+  reset() {
+    this.choices = []
+    this.options = [...this.election?.options || []];
+  }
+
   vote() {
-    console.log('+++ vote');
     this.isSubmitting = true;
+    this.electionService.vote(this.election?.id!, this.choices).subscribe({
+      next: vote => {
+        this.router.navigate([`/vote/${vote.electionId}/results`]);
+        this.reset();
+        this.isSubmitting = false;
+      },
+      error: err => {
+        this.showErrorMessage(err);
+        this.isSubmitting = false;
+      }
+    });
+  }
+
+  showErrorMessage(err: any) {
+    const message =
+      `Oops! There was an unexpected error. Please try again later.\nError: "${err.statusText}"`;
+    this.snackBar.open(message, 'Dismiss', { panelClass: 'snackbar-text' });
   }
 }

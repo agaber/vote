@@ -2,16 +2,16 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { AppComponent } from '@/app/app.component';
+import { AppComponent } from '@/app/components/app/app.component';
+import { AppMaterialModule } from '@/app/app-material.module';
 import { CreateElectionComponent } from '@/app/components/create-election/create-election.component';
-import { MaterialModule } from '@/app/app-material.module';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
+        AppMaterialModule,
         HttpClientTestingModule,
-        MaterialModule,
         RouterTestingModule,
       ],
       declarations: [

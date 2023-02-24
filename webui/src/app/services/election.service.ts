@@ -29,7 +29,8 @@ export class ElectionService {
 
   vote(electionId: string, choices: string[]): Observable<Vote> {
     const url = `${env.apiUrl}/elections/${electionId}:vote`;
-    return this.http.post<Vote>(url, undefined, HTTP_OPTONS);
+    const body = { choices };
+    return this.http.post<Vote>(url, body, HTTP_OPTONS);
   }
 
   tally(electionId: string): Observable<string> {

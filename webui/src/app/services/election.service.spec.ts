@@ -40,6 +40,7 @@ describe('ElectionService', () => {
 
     const req = httpMock.expectOne(`${env.apiUrl}/elections`);
     expect(req.request.method).toEqual('POST');
+    expect(req.request.body).toEqual(newElection);
     req.flush(expectedElection);
   });
 
@@ -78,6 +79,7 @@ describe('ElectionService', () => {
 
     const req = httpMock.expectOne(`${env.apiUrl}/elections/${election.id}:vote`);
     expect(req.request.method).toEqual('POST');
+    expect(req.request.body).toEqual({ choices: vote.choices });
     req.flush(vote);
   });
 
