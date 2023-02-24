@@ -11,11 +11,31 @@ body {
   margin: 0;
 }
 
+$mat-card-padding: 10px;
+
 mat-card {
-  padding: 10px;
+  padding: $mat-card-padding;
+}
+
+mat-card-content {
+  min-height: 430px;
+}
+
+mat-card-footer {
+  margin-bottom: $mat-card-padding * -1;
+  margin-left: $mat-card-padding * -1;
+  margin-right: $mat-card-padding * -1;
+}
+
+mat-card-header {
+  padding: 0 !important;
+  margin-left: $mat-card-padding * -1;
+  margin-right: $mat-card-padding * -1;
+  margin-top: $mat-card-padding * -1;
 }
 
 mat-card-title {
+  padding-top: 15px;
   padding-bottom: 15px;
 }
 

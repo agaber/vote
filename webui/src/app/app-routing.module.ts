@@ -7,6 +7,9 @@ const routes: Routes = [
   { path: '', component: CreateElectionComponent },
   { path: 'create', component: CreateElectionComponent },
   { path: 'vote/:electionId', component: VoteComponentComponent },
+
+  // TODO: implement and change this.
+  { path: 'vote/:electionId/results', component: CreateElectionComponent },
 ];
 
 @NgModule({

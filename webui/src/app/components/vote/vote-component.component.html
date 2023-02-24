@@ -1,1 +1,57 @@
-<p>vote-component works!</p>
+<mat-card>
+  <mat-card-header>
+    <mat-progress-bar mode="indeterminate" *ngIf="isLoadingElection"></mat-progress-bar>
+  </mat-card-header>
+
+  <mat-card-content>
+    <mat-card-title>{{question}}</mat-card-title>
+
+    <div cdkDropListGroup>
+      <div class="options-container">
+        <h3>Ballot options</h3>
+        <div
+            cdkDropList
+            class="options-list"
+            [cdkDropListData]="options"
+            (cdkDropListDropped)="choiceDropped($event)">
+          <div cdkDrag class="options-box" *ngFor="let option of options">{{option}}</div>
+        </div>
+      </div>
+
+      <div class="choices-container">
+        <h3>Your choices</h3>
+        <div
+            cdkDropList
+            class="options-list"
+            [cdkDropListData]="choices"
+            (cdkDropListDropped)="choiceDropped($event)">
+          <div cdkDrag class="options-box" *ngFor="let choice of choices">{{choice}}</div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions align="end">
+    <button
+        id="submitButton"
+        color="primary"
+        mat-raised-button
+        type="submit"
+        [disabled]="isSubmitting || isLoadingElection"
+        (click)="vote()">
+      Submit
+    </button>
+
+    <a
+        id="resultsLinkButton"
+        mat-flat-button
+        [disabled]="isLoadingElection"
+        [routerLink]="['vote/:electionId/results', election?.id]">
+      See results
+    </a>
+  </mat-card-actions>
+
+  <mat-card-footer>
+    <mat-progress-bar mode="indeterminate" *ngIf="isSubmitting"></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>
