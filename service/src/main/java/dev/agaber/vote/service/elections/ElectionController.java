@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Singular;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -80,7 +79,7 @@ final class ElectionController {
   }
 
   @PostMapping("/{electionId}:vote")
-  public ResponseEntity vote(
+  public ResponseEntity<Vote> vote(
       @PathVariable String electionId, @RequestBody VoteRequest voteRequest) {
     var vote = electionService.vote(electionId, ImmutableList.copyOf(voteRequest.choices));
     return ResponseEntity.ok(vote);
@@ -106,7 +105,7 @@ final class ElectionController {
    * </pre>
    */
   @PostMapping("/{electionId}:tally")
-  public ResponseEntity<String> tally(@PathVariable String electionId) {
+  public ResponseEntity<ElectionResult> tally(@PathVariable String electionId) {
     return ResponseEntity.ok(electionService.tally(electionId));
   }
 }
