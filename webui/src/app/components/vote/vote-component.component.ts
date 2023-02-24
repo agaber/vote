@@ -51,6 +51,10 @@ export class VoteComponentComponent implements OnInit {
     });
   }
 
+  get isValid() {
+    return !!this.choices.length;
+  }
+
   choiceDropped(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -70,6 +74,10 @@ export class VoteComponentComponent implements OnInit {
   }
 
   vote() {
+    if (!this.isValid) {
+      return;
+    }
+
     this.isSubmitting = true;
     this.electionService.vote(this.election?.id!, this.choices).subscribe({
       next: vote => {

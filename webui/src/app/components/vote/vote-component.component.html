@@ -65,7 +65,7 @@
         color="primary"
         mat-raised-button
         type="submit"
-        [disabled]="isSubmitting || isLoadingElection"
+        [disabled]="isSubmitting || isLoadingElection || !isValid"
         (click)="vote()">
       Submit
     </button>
