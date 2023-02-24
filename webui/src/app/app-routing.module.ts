@@ -1,14 +1,14 @@
-import { CreateElectionComponent } from '@/app/components/create-election/create-election.component';
+import { ElectionPageComponent } from '@/app/components/election-page/election-page.component';
 import { NgModule } from '@angular/core';
-import { ResultsComponent } from '@/app/components/results/results.component';
+import { ResultsPageComponent } from '@/app/components/results-page/results-page.component';
 import { RouterModule, Routes } from '@angular/router';
-import { VoteComponentComponent } from '@/app/components/vote/vote-component.component';
+import { VotePageComponent } from '@/app/components/vote-page/vote-page.component';
 
 const routes: Routes = [
-  { path: '', component: CreateElectionComponent },
-  { path: 'election', component: CreateElectionComponent },
-  { path: 'election/:electionId', component: ResultsComponent },
-  { path: 'vote/:electionId', component: VoteComponentComponent },
+  { path: '', component: ElectionPageComponent },
+  { path: 'election', component: ElectionPageComponent },
+  { path: 'election/:electionId', component: ResultsPageComponent },
+  { path: 'vote/:electionId', component: VotePageComponent },
 ];
 
 @NgModule({

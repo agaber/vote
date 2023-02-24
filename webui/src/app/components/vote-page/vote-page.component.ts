@@ -10,10 +10,10 @@ import { ShareDialogComponent } from "../share-dialog/share-dialog.component";
 
 @Component({
   selector: 'app-vote-component',
-  styleUrls: ['vote-component.component.scss'],
-  templateUrl: 'vote-component.component.html',
+  styleUrls: ['vote-page.component.scss'],
+  templateUrl: 'vote-page.component.html',
 })
-export class VoteComponentComponent implements OnInit {
+export class VotePageComponent implements OnInit {
   constructor(
     private electionService: ElectionService,
     private route: ActivatedRoute,
@@ -89,7 +89,7 @@ export class VoteComponentComponent implements OnInit {
     this.isSubmitting = true;
     this.electionService.vote(this.election?.id!, this.choices).subscribe({
       next: vote => {
-        this.router.navigate([`/vote/${vote.electionId}/results`]);
+        this.router.navigate([`/election/${vote.electionId}`]);
         this.reset();
         this.isSubmitting = false;
       },

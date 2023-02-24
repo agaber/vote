@@ -8,21 +8,21 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from '@/app/components/app/app.component';
 import { AppMaterialModule } from '@/app/app-material.module';
 import { AppRoutingModule } from '@/app/app-routing.module';
-import { CreateElectionComponent } from '@/app/components/create-election/create-election.component';
-import { VoteComponentComponent } from './components/vote/vote-component.component';
+import { ElectionPageComponent } from '@/app/components/election-page/election-page.component';
+import { VotePageComponent } from './components/vote-page/vote-page.component';
 import { HelpIconButtonComponent } from './components/help-icon-button/help-icon-button.component';
 import { ShareDialogComponent } from './components/share-dialog/share-dialog.component';
-import { ResultsComponent } from './components/results/results.component';
+import { ResultsPageComponent } from './components/results-page/results-page.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    CreateElectionComponent,
-    VoteComponentComponent,
+    ElectionPageComponent,
+    VotePageComponent,
     HelpIconButtonComponent,
     ShareDialogComponent,
-    ResultsComponent,
+    ResultsPageComponent,
   ],
   imports: [
     BrowserModule,

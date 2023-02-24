@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { AppComponent } from '@/app/components/app/app.component';
 import { AppMaterialModule } from '@/app/app-material.module';
-import { CreateElectionComponent } from '@/app/components/create-election/create-election.component';
+import { CreateElectionComponent } from '@/app/components/election-page/election-page.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {

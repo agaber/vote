@@ -8,10 +8,10 @@ import { ElectionService } from '@/app/services/election.service';
 
 @Component({
   selector: 'app-create-election',
-  styleUrls: ['create-election.component.scss'],
-  templateUrl: 'create-election.component.html',
+  styleUrls: ['election-page.component.scss'],
+  templateUrl: 'election-page.component.html',
 })
-export class CreateElectionComponent {
+export class ElectionPageComponent {
   constructor(
     private electionService: ElectionService,
     private snackBar: MatSnackBar,
