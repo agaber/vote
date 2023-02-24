@@ -56,7 +56,7 @@
         id="resultsLinkButton"
         mat-stroked-button
         [disabled]="isLoadingElection"
-        [routerLink]="['results']">
+        [routerLink]="['/election', election?.id]">
       <mat-icon>leaderboard</mat-icon>
       See results
     </a>

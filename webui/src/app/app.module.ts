@@ -12,6 +12,7 @@ import { CreateElectionComponent } from '@/app/components/create-election/create
 import { VoteComponentComponent } from './components/vote/vote-component.component';
 import { HelpIconButtonComponent } from './components/help-icon-button/help-icon-button.component';
 import { ShareDialogComponent } from './components/share-dialog/share-dialog.component';
+import { ResultsComponent } from './components/results/results.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { ShareDialogComponent } from './components/share-dialog/share-dialog.com
     VoteComponentComponent,
     HelpIconButtonComponent,
     ShareDialogComponent,
+    ResultsComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,15 +1,14 @@
+import { CreateElectionComponent } from '@/app/components/create-election/create-election.component';
 import { NgModule } from '@angular/core';
+import { ResultsComponent } from '@/app/components/results/results.component';
 import { RouterModule, Routes } from '@angular/router';
-import { CreateElectionComponent } from './components/create-election/create-election.component';
-import { VoteComponentComponent } from './components/vote/vote-component.component';
+import { VoteComponentComponent } from '@/app/components/vote/vote-component.component';
 
 const routes: Routes = [
   { path: '', component: CreateElectionComponent },
-  { path: 'create', component: CreateElectionComponent },
+  { path: 'election', component: CreateElectionComponent },
+  { path: 'election/:electionId', component: ResultsComponent },
   { path: 'vote/:electionId', component: VoteComponentComponent },
-
-  // TODO: implement and change this.
-  { path: 'vote/:electionId/results', component: CreateElectionComponent },
 ];
 
 @NgModule({
