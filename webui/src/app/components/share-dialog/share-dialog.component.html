@@ -1,0 +1,14 @@
+<h2 mat-dialog-title><mat-icon>share</mat-icon>Share</h2>
+
+<mat-dialog-content class="mat-typography">
+  <div>
+    <input appearance="outline" matInput readonly="readonly" type="text" [value]="data.shareUrl" />
+    <button aria-label="Copy URL" (click)="copyToClipboard(data.shareUrl)">
+      <mat-icon>content_copy</mat-icon>
+    </button>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

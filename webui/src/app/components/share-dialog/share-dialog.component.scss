@@ -1,0 +1,18 @@
+mat-dialog-content input {
+  height: 32px;
+  width: 350px
+}
+
+mat-dialog-content button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+h2 {
+  mat-icon {
+    font-size: 22px;
+    vertical-align: middle;
+  }
+}

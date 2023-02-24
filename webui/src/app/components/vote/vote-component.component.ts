@@ -4,8 +4,9 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { switchMap } from "rxjs";
 
-import { ElectionService } from "@/app/services/election.service";
 import { Election } from "@/app/model/election";
+import { ElectionService } from "@/app/services/election.service";
+import { ShareDialogComponent } from "../share-dialog/share-dialog.component";
 
 @Component({
   selector: 'app-vote-component',
@@ -17,7 +18,9 @@ export class VoteComponentComponent implements OnInit {
     private electionService: ElectionService,
     private route: ActivatedRoute,
     private router: Router,
-    private snackBar: MatSnackBar) { }
+    private shareDialog: ShareDialogComponent,
+    private snackBar: MatSnackBar) {
+  }
 
   choices: string[] = [];
   election?: Election;
@@ -74,7 +77,8 @@ export class VoteComponentComponent implements OnInit {
   }
 
   showShareDialog() {
-
+    const shareUrl = window.location.href;
+    this.shareDialog.open(shareUrl);
   }
 
   vote() {

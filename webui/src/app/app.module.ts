@@ -11,6 +11,7 @@ import { AppRoutingModule } from '@/app/app-routing.module';
 import { CreateElectionComponent } from '@/app/components/create-election/create-election.component';
 import { VoteComponentComponent } from './components/vote/vote-component.component';
 import { HelpIconButtonComponent } from './components/help-icon-button/help-icon-button.component';
+import { ShareDialogComponent } from './components/share-dialog/share-dialog.component';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { HelpIconButtonComponent } from './components/help-icon-button/help-icon
     CreateElectionComponent,
     VoteComponentComponent,
     HelpIconButtonComponent,
+    ShareDialogComponent,
   ],
   imports: [
     BrowserModule,
