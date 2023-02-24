@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Election } from '@/app/model/election';
+import { ElectionResult } from '@/app/model/election_result';
 import { environment as env } from '@/environments/environment';
 import { Observable } from 'rxjs';
 import { Vote } from '@/app/model/vote';
@@ -33,8 +34,8 @@ export class ElectionService {
     return this.http.post<Vote>(url, body, HTTP_OPTONS);
   }
 
-  tally(electionId: string): Observable<string> {
+  tally(electionId: string): Observable<ElectionResult> {
     const url = `${env.apiUrl}/elections/${electionId}:tally`;
-    return this.http.post<string>(url, undefined, HTTP_OPTONS);
+    return this.http.post<ElectionResult>(url, undefined, HTTP_OPTONS);
   }
 }

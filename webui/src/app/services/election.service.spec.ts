@@ -5,6 +5,7 @@ import { Election } from '@/app/model/election';
 import { ElectionService } from '@/app/services/election.service';
 import { environment as env } from '@/environments/environment';
 import { Vote } from '@/app/model/vote';
+import { ElectionResult } from '../model/election_result';
 
 describe('ElectionService', () => {
   let httpMock: HttpTestingController;
@@ -86,12 +87,24 @@ describe('ElectionService', () => {
   it('should tally the results of an election', () => {
     const electionId = '12345';
 
+    const election: Election = {
+      id: electionId,
+      question: 'Something something millenials?',
+      options: ['Yes', 'No', 'IDK'],
+    };
+
+    const expectedElectionResult: ElectionResult = {
+      election: election,
+      rounds: [],
+      winner: "Everyone!",
+    }
+
     service.tally(electionId).subscribe(result => {
-      expect(result).toEqual('Yes');
+      expect(result).toEqual(expectedElectionResult);
     });
 
     const req = httpMock.expectOne(`${env.apiUrl}/elections/${electionId}:tally`);
     expect(req.request.method).toEqual('POST');
-    req.flush('Yes');
+    req.flush(expectedElectionResult);
   });
 });

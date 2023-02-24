@@ -4,7 +4,11 @@ import { TestBed } from '@angular/core/testing';
 
 import { AppComponent } from '@/app/components/app/app.component';
 import { AppMaterialModule } from '@/app/app-material.module';
-import { CreateElectionComponent } from '@/app/components/election-page/election-page.component';
+import { ElectionPageComponent } from '@/app/components/election-page/election-page.component';
+import { HelpIconButtonComponent } from '../help-icon-button/help-icon-button.component';
+import { ResultsPageComponent } from '../results-page/results-page.component';
+import { ShareDialogComponent } from '../share-dialog/share-dialog.component';
+import { VotePageComponent } from '../vote-page/vote-page.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -16,7 +20,11 @@ describe('AppComponent', () => {
       ],
       declarations: [
         AppComponent,
-        CreateElectionComponent,
+        ElectionPageComponent,
+        HelpIconButtonComponent,
+        ResultsPageComponent,
+        ShareDialogComponent,
+        VotePageComponent,
       ],
     }).compileComponents();
   });
