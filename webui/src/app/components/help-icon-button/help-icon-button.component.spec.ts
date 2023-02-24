@@ -1,3 +1,4 @@
+import { AppModule } from '@/app/app.module';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HelpIconButtonComponent } from './help-icon-button.component';
@@ -8,9 +9,10 @@ describe('HelpIconButtonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HelpIconButtonComponent ]
+      imports: [AppModule],
+      declarations: [HelpIconButtonComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(HelpIconButtonComponent);
     component = fixture.componentInstance;

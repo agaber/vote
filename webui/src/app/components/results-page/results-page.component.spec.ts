@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ResultsPageComponent } from '@/app/components/results-page/results-page.component';
+import { AppModule } from '@/app/app.module';
 
 describe('ResultsComponent', () => {
   let component: ResultsPageComponent;
@@ -8,6 +9,7 @@ describe('ResultsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [AppModule],
       declarations: [ResultsPageComponent]
     })
       .compileComponents();

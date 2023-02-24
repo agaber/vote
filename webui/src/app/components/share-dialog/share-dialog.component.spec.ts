@@ -1,6 +1,12 @@
+import { AppModule } from '@/app/app.module';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { ShareDialogComponent } from './share-dialog.component';
+import { ShareDialogComponent, ShareDialogData } from './share-dialog.component';
+
+var SHARED_DIALOG_DATA: ShareDialogData = {
+  shareUrl: 'http://cool.com',
+}
 
 describe('ShareDialogComponent', () => {
   let component: ShareDialogComponent;
@@ -8,9 +14,14 @@ describe('ShareDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ShareDialogComponent ]
+      imports: [AppModule],
+      declarations: [ShareDialogComponent],
+      providers: [{
+        provide: MAT_DIALOG_DATA,
+        useValue: SHARED_DIALOG_DATA,
+      }],
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(ShareDialogComponent);
     component = fixture.componentInstance;

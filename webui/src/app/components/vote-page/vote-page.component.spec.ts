@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { VotePageComponent } from '@/app/components/vote-page/vote-page.component';
+import { AppModule } from '@/app/app.module';
 
 describe('VoteComponentComponent', () => {
   let component: VotePageComponent;
@@ -8,6 +9,7 @@ describe('VoteComponentComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [AppModule],
       declarations: [VotePageComponent]
     })
       .compileComponents();

@@ -27,6 +27,6 @@ export class ShareDialogComponent {
 }
 
 /** The properties to be used in the HTML template. */
-interface ShareDialogData {
+export interface ShareDialogData {
   shareUrl: string;
 }
