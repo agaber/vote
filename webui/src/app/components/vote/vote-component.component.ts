@@ -26,6 +26,10 @@ export class VoteComponentComponent implements OnInit {
   options: string[] = [];
   question?: string;
 
+  get isValid() {
+    return !!this.choices.length;
+  }
+
   ngOnInit(): void {
     this.isLoadingElection = true;
     const getElection = this.route.paramMap.pipe(
@@ -51,10 +55,6 @@ export class VoteComponentComponent implements OnInit {
     });
   }
 
-  get isValid() {
-    return !!this.choices.length;
-  }
-
   choiceDropped(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -71,6 +71,10 @@ export class VoteComponentComponent implements OnInit {
   reset() {
     this.choices = []
     this.options = [...this.election?.options || []];
+  }
+
+  showShareDialog() {
+
   }
 
   vote() {
@@ -92,7 +96,7 @@ export class VoteComponentComponent implements OnInit {
     });
   }
 
-  showErrorMessage(err: any) {
+  private showErrorMessage(err: any) {
     const message =
       `Oops! There was an unexpected error. Please try again later.\nError: "${err.statusText}"`;
     this.snackBar.open(message, 'Dismiss', { panelClass: 'snackbar-text' });
