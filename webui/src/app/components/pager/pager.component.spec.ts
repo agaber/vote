@@ -112,4 +112,11 @@ describe('PagerComponent', () => {
       expect(component.previousButtonClick.emit).not.toHaveBeenCalled();
     });
   });
+
+  it('should display a label if set', () => {
+    component.label = 'Round 1 of 3';
+    fixture.detectChanges();
+    expect(de.query(By.css('#label')).nativeElement.innerHTML)
+      .toContain("Round 1 of 3");
+  });
 });

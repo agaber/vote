@@ -1,22 +1,12 @@
 #container {
-  position: relative;
-  width: 100%;
+  display: table;
 }
 
-/** Clear fix. TODO: use flex instead. */
-#container:after {
-  clear: both;
-  content: '';
-  display: block;
-  height: 0;
-  line-height: 0;
-  visibility: hidden;
+#container button {
+  display: table-cell;
 }
 
-#nextButton {
-  float: right;
-}
-
-#previousButton {
-  float: left;
+#label {
+  display: table-cell;
+  vertical-align: middle;
 }

@@ -47,12 +47,11 @@ export class ResultsPageComponent implements OnInit {
     return (this.electionResult?.rounds || []).length;
   }
 
-  get roundName(): string {
+  get roundLabel(): string {
     if (!this.electionResult?.rounds) {
-      return "0";
+      return "";
     }
-    const isFinal = this.roundNumber == this.electionResult.rounds.length - 1;
-    return `${this.roundNumber + 1}` + (isFinal ? ' (Final)' : '');
+    return `${this.roundNumber + 1} of ${this.electionResult?.rounds.length}`;
   }
 
   ngOnInit(): void {
@@ -111,7 +110,7 @@ export class ResultsPageComponent implements OnInit {
       data: {
         labels: round.counts.map(c => c.text),
         datasets: [{
-          label: `Number of votes in round ${this.roundName}`,
+          label: `Number of votes in round ${this.roundLabel}`,
           data: round.counts.map(c => c.votesCounted),
           backgroundColor: COLORS,
           borderWidth: this.chartType === ChartType.PIE ? 0.5 : 0,

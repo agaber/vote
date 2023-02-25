@@ -7,6 +7,15 @@
     <mat-card-title>{{ electionResult?.election?.question }}</mat-card-title>
 
     <div id="chartTypeButtonToggle">
+      <app-pager
+          id="pager"
+          label="Round {{ roundLabel }}"
+          [pageNumber]="roundNumber + 1"
+          [numberOfPages]="numberOfRounds"
+          (nextButtonClick)="onNextRoundClick()"
+          (previousButtonClick)="onPreviousRoundClick()">
+      </app-pager>
+
       <mat-button-toggle-group
           aria-label="Choose a chart type"
           name="chartType"
@@ -39,13 +48,6 @@
     <div id="resultsContainer" [ngClass]="chartType === 'pie' ? 'piechart' : ''">
       <canvas id="resultsCanvas"></canvas>
     </div>
-
-    <app-pager
-        [pageNumber]="roundNumber + 1"
-        [numberOfPages]="numberOfRounds"
-        (nextButtonClick)="onNextRoundClick()"
-        (previousButtonClick)="onPreviousRoundClick()">
-    </app-pager>
 
     <div>
       Ranked choice leader: {{ electionResult?.winner }}

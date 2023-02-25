@@ -10,6 +10,15 @@
   position: relative;
 }
 
+#chartTypeButtonToggle #pager {
+  float: left;
+  margin-top: -10px;
+}
+
+#chartTypeButtonToggler #roundName {
+  float: left;
+}
+
 #chartTypeButtonToggle mat-button-toggle-group {
   float: right;
   height: 24px;

@@ -12,8 +12,9 @@ import { EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['./pager.component.scss']
 })
 export class PagerComponent {
-  @Input() pageNumber: number = 1;
+  @Input() label: string = '';
   @Input() numberOfPages: number = 0;
+  @Input() pageNumber: number = 1;
   @Output() nextButtonClick = new EventEmitter();
   @Output() previousButtonClick = new EventEmitter();
 
