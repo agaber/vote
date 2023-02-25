@@ -1,0 +1,19 @@
+<div id="container">
+  <button
+      id="previousButton"
+      mat-icon-button
+      matTooltip="Previous round"
+      [disabled]="isPreviousButtonDisabled"
+      (click)="onPreviousButtonClick()">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+
+  <button
+      id="nextButton"
+      mat-icon-button
+      matTooltip="Next round"
+      [disabled]="isNextButtonDisabled"
+      (click)="onNextButtonClick()">
+    <mat-icon>chevron_right</mat-icon>
+  </button>
+</div>

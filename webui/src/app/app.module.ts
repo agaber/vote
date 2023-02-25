@@ -13,24 +13,26 @@ import { VotePageComponent } from './components/vote-page/vote-page.component';
 import { HelpIconButtonComponent } from './components/help-icon-button/help-icon-button.component';
 import { ShareDialogComponent } from './components/share-dialog/share-dialog.component';
 import { ResultsPageComponent } from './components/results-page/results-page.component';
+import { PagerComponent } from './components/pager/pager.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     ElectionPageComponent,
-    VotePageComponent,
     HelpIconButtonComponent,
-    ShareDialogComponent,
+    PagerComponent,
     ResultsPageComponent,
+    ShareDialogComponent,
+    VotePageComponent,
   ],
   imports: [
     BrowserModule,
+    AppMaterialModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
-    AppMaterialModule,
     ReactiveFormsModule,
   ],
   providers: [],
