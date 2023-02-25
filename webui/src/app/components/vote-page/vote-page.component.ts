@@ -6,8 +6,7 @@ import { switchMap } from "rxjs";
 
 import { Election } from "@/app/model/election";
 import { ElectionService } from "@/app/services/election.service";
-import { environment as env } from "@/environments/environment";
-import { ShareDialogComponent } from "../share-dialog/share-dialog.component";
+import { ShareDialogComponent } from "@/app/components/share-dialog/share-dialog.component";
 
 @Component({
   selector: 'app-vote-component',
@@ -78,8 +77,7 @@ export class VotePageComponent implements OnInit {
   }
 
   showShareDialog() {
-    const shareUrl = `${env.uiUrl}/vote/${this.election?.id}`
-    this.shareDialog.open(shareUrl);
+    this.shareDialog.open(this.election?.id || '');
   }
 
   vote() {
@@ -90,7 +88,7 @@ export class VotePageComponent implements OnInit {
     this.isSubmitting = true;
     this.electionService.vote(this.election?.id!, this.choices).subscribe({
       next: vote => {
-        this.router.navigate([`/election/${vote.electionId}`]);
+        this.router.navigate([`/vote/${vote.electionId}/results`]);
         this.reset();
         this.isSubmitting = false;
       },

@@ -42,3 +42,11 @@ mat-card-title {
 mat-form-field {
   width: 100%;
 }
+
+mat-card-actions {
+
+  a,
+  button {
+    margin-left: 10px;
+  }
+}

@@ -5,9 +5,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { VotePageComponent } from '@/app/components/vote-page/vote-page.component';
 
 const routes: Routes = [
-  { path: '', component: ElectionPageComponent },
-  { path: 'election', component: ElectionPageComponent },
-  { path: 'election/:electionId', component: ResultsPageComponent },
+  // TODO: change this.
+  // 1. need new landing page. Idea: direct to the voting page of random election.
+  // 2. root url is not supported. agaber.dev is for other stuff,
+  //    agaber.dev/vote is the base url --> can maybe fix this with k8s but rather not anyway
+  { path: '', redirectTo: '/vote/election/create', pathMatch: 'full' },
+
+  { path: 'vote/election/create', component: ElectionPageComponent },
+  { path: 'vote/:electionId/results', component: ResultsPageComponent },
   { path: 'vote/:electionId', component: VotePageComponent },
 ];
 

@@ -3,6 +3,8 @@ import { Component, Inject, Injectable, Optional } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+import { environment as env } from "@/environments/environment";
+
 @Component({
   selector: 'app-share-dialog',
   templateUrl: 'share-dialog.component.html',
@@ -16,7 +18,8 @@ export class ShareDialogComponent {
     private dialog: MatDialog,
     private snackBar: MatSnackBar) { }
 
-  open(shareUrl: string) {
+  open(electionId: string) {
+    const shareUrl = `${env.uiUrl}/vote/${electionId}`
     this.dialog.open(ShareDialogComponent, { data: { shareUrl } });
   }
 

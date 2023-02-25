@@ -4,9 +4,9 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { switchMap } from "rxjs";
 
-import { Election } from "@/app/model/election";
 import { ElectionService } from "@/app/services/election.service";
 import { ElectionResult, Choice, Round } from "@/app/model/election_result";
+import { ShareDialogComponent } from "@/app/components/share-dialog/share-dialog.component";
 
 
 /** Supported chart types. String values are used as event signals. */
@@ -34,6 +34,7 @@ export class ResultsPageComponent implements OnInit {
     private electionService: ElectionService,
     private route: ActivatedRoute,
     private router: Router,
+    private shareDialog: ShareDialogComponent,
     private snackBar: MatSnackBar) {
   }
 
@@ -55,6 +56,37 @@ export class ResultsPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.fetchResults();
+  }
+
+  onChangeChartType() {
+    this.loadChart();
+  }
+
+  onNextRoundClick() {
+    this.roundNumber++;
+    this.loadChart();
+  }
+
+  onPreviousRoundClick() {
+    this.roundNumber--;
+    this.loadChart();
+  }
+
+  refresh() {
+    this.fetchResults();
+  }
+
+  showShareDialog() {
+    this.shareDialog.open(this.electionResult?.election?.id || '');
+  }
+
+  vote() {
+    const electionId = this.electionResult?.election?.id || '';
+    this.router.navigate([`/vote/${electionId}`]);
+  }
+
+  private fetchResults() {
     this.isLoading = true;
     const getElection = this.route.paramMap.pipe(
       switchMap(params => {
@@ -75,21 +107,6 @@ export class ResultsPageComponent implements OnInit {
         this.isLoading = false;
       }
     });
-  }
-
-  onChangeChartType() {
-    this.loadChart();
-  }
-
-  onNextRoundClick() {
-    this.roundNumber++;
-    this.loadChart();
-  }
-
-  onPreviousRoundClick() {
-    console.log('++++ onPreviousRoundClick');
-    this.roundNumber--;
-    this.loadChart();
   }
 
   private loadChart() {

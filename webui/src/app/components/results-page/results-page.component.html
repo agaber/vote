@@ -57,6 +57,25 @@
   </mat-card-content>
 
   <mat-card-actions align="end">
+    <button
+        id="submitButton"
+        mat-stroked-button
+        (click)="vote()">
+      <mat-icon>arrow_back</mat-icon> Back
+    </button>
 
+    <button
+        id="shareButton"
+        mat-stroked-button
+        (click)="showShareDialog()">
+      <mat-icon>share</mat-icon> Share
+    </button>
+
+    <button
+        id="refreshButton"
+        mat-stroked-button
+        (click)="refresh()">
+      <mat-icon>restart_alt</mat-icon> Refresh results
+    </button>
   </mat-card-actions>
 </mat-card>
