@@ -5,9 +5,29 @@
 
   <mat-card-content>
     <mat-card-title>{{ electionResult?.election?.question }}</mat-card-title>
-    <div id="resultsContainer">
-      <canvas id="resultsCanvas">{{ chart }}</canvas>
+
+    <div id="chartTypeButtonToggle">
+      <mat-button-toggle-group
+          aria-label="Choose a chart type"
+          name="chartType"
+          value="hbar"
+          [(ngModel)]="chartType">
+        <mat-button-toggle id="hbarButton" matTooltip="Horizontal bar chart" value="hbar" (click)="changeChartType()">
+          <mat-icon aria-label="Horizontal bar chart">sort</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle id="vbarButton" matTooltip="Vertical bar chart" value="vbar" (click)="changeChartType()">
+          <mat-icon aria-label="Vertical bar chart">bar_chart</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle id="pieButton" matTooltip="Pie chart" value="pie" (click)="changeChartType()">
+          <mat-icon aria-label="Pie chart">pie_chart</mat-icon>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
     </div>
+
+    <div id="resultsContainer">
+      <canvas id="resultsCanvas"></canvas>
+    </div>
+
     <h3>Ranked choice leader: {{ electionResult?.winner }}</h3>
   </mat-card-content>
 

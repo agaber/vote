@@ -8,6 +8,22 @@ import { Election } from "@/app/model/election";
 import { ElectionService } from "@/app/services/election.service";
 import { ElectionResult, Choice, Round } from "@/app/model/election_result";
 
+
+/** Supported chart types. String values are used as event signals. */
+export enum ChartType {
+  HBAR = 'hbar',
+  VBAR = 'vbar',
+  PIE = 'pie',
+}
+
+
+/**
+ * Choose from a set of colors in random order (note: the order is random not
+ * the colors). These values should not change after user clicks around though.
+ */
+const COLORS = randomizedColors();
+
+
 @Component({
   selector: 'app-results',
   templateUrl: 'results-page.component.html',
@@ -21,7 +37,8 @@ export class ResultsPageComponent implements OnInit {
     private snackBar: MatSnackBar) {
   }
 
-  chart?: Chart;
+  chart?: Chart<any, any, any>;
+  chartType = ChartType.HBAR;
   electionResult?: ElectionResult;
   isLoading = false;
   roundNumber = 0;
@@ -49,6 +66,10 @@ export class ResultsPageComponent implements OnInit {
     });
   }
 
+  changeChartType() {
+    this.loadChart();
+  }
+
   get roundName(): string {
     if (!this.electionResult?.rounds) {
       return "0";
@@ -62,32 +83,27 @@ export class ResultsPageComponent implements OnInit {
       return;
     }
 
-    // const round = this.electionResult.rounds[this.roundNumber];
-    const round: Round = { counts: [] };
-    for (let i = 0; i < 11; i++) {
-      round.counts.push({
-        isEliminated: false,
-        text: maketext(Math.random() * 10),
-        votesCounted: Math.floor(Math.random() * 4) + 1,
-      });
-    }
-
+    const round = this.electionResult.rounds[this.roundNumber];
     const data = round.counts.map(c => c.votesCounted);
     const maxVotes = Math.max(...data);
-    const barChart = new Chart('resultsCanvas', {
-      type: 'bar',
+
+    if (this.chart) {
+      this.chart.destroy();
+    }
+
+    this.chart = new Chart('resultsCanvas', {
+      type: this.chartType === ChartType.PIE ? 'pie' : 'bar',
       data: {
         labels: round.counts.map(c => c.text),
         datasets: [{
           label: `Number of votes in round ${this.roundName}`,
           data: round.counts.map(c => c.votesCounted),
-          backgroundColor: randomizedColors(),
+          backgroundColor: COLORS,
           borderWidth: 0,
         }],
       },
       options: {
-        indexAxis: 'y',
-        responsive: true,
+        indexAxis: this.chartType === ChartType.HBAR ? 'y' : 'x',
         plugins: {
           legend: { position: 'bottom' },
           tooltip: {
@@ -96,9 +112,19 @@ export class ResultsPageComponent implements OnInit {
             },
           },
         },
+        responsive: true,
         scales: {
           x: {
+            display: this.chartType !== ChartType.PIE,
+            grid: { display: false },
             beginAtZero: true,
+            ticks: {
+              stepSize: maxVotes < 10 ? 1 : undefined,
+            }
+          },
+          y: {
+            display: this.chartType !== ChartType.PIE,
+            grid: { display: false },
             ticks: {
               stepSize: maxVotes < 10 ? 1 : undefined,
             }
@@ -106,30 +132,6 @@ export class ResultsPageComponent implements OnInit {
         },
       },
     });
-
-    // const x = new Chart('resultsCanvas', {
-    //   type: 'pie',
-    //   data: {
-    //     labels: round.counts.map(c => c.text),
-    //     datasets: [{
-    //       label: `Number of votes in round ${this.roundName}`,
-    //       data: round.counts.map(c => c.votesCounted),
-    //       backgroundColor: randomizedColors(),
-    //       borderWidth: 0.5,
-    //     }],
-    //   },
-    //   options: {
-    //     responsive: true,
-    //     plugins: {
-    //       legend: { position: 'bottom' },
-    //       tooltip: {
-    //         callbacks: {
-    //           label: (item) => `${item.formattedValue} votes`,
-    //         },
-    //       },
-    //     },
-    //   },
-    // });
   }
 
   private showErrorMessage(err: any) {
@@ -149,20 +151,8 @@ function randomizedColors() {
     'rgb(0, 128, 255)',
     'rgb(0, 0, 153)',
     'rgb(192, 192, 192)',
-    'rgb(102, 51, 0)',
+    'rgb(255, 204, 204)',
     'rgb(255, 0, 127)',
   ];
   return colors.sort((a, b) => 0.5 - Math.random());
-}
-
-
-
-function maketext(length: number) {
-  let result = '';
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  const charactersLength = characters.length;
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
 }

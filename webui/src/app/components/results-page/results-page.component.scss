@@ -1,4 +1,40 @@
 #resultsContainer {
-  min-height: 400px;
+  height: 480px;
+  width: 100%;
+}
+
+#chartTypeButtonToggle {
+  position: relative;
+}
+
+#chartTypeButtonToggle mat-button-toggle-group {
+  float: right;
+  height: 24px;
+}
+
+#chartTypeButtonToggle mat-button-toggle-group mat-button-toggle {
+  height: 100%;
+  width: 24px;
+}
+
+::ng-deep #chartTypeButtonToggle mat-button-toggle-group mat-button-toggle button {
+  height: 100%;
+  width: 100%;
+}
+
+::ng-deep #chartTypeButtonToggle mat-button-toggle-group mat-button-toggle button span {
+  display: block;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+#chartTypeButtonToggle mat-button-toggle-group mat-icon {
+  font-size: 18px;
+  height: 100%;
+  margin: 0;
+  padding: 0 0 2px 0;
+  vertical-align: unset;
   width: 100%;
 }
