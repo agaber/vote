@@ -30,6 +30,7 @@ export class PagerComponent {
   }
 
   onPreviousButtonClick() {
+    console.log('*** emitting previousButtonClick');
     this.previousButtonClick.emit();
   }
 }

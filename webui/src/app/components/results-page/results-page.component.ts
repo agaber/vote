@@ -43,6 +43,18 @@ export class ResultsPageComponent implements OnInit {
   isLoading = false;
   roundNumber = 0;
 
+  get numberOfRounds() {
+    return (this.electionResult?.rounds || []).length;
+  }
+
+  get roundName(): string {
+    if (!this.electionResult?.rounds) {
+      return "0";
+    }
+    const isFinal = this.roundNumber == this.electionResult.rounds.length - 1;
+    return `${this.roundNumber + 1}` + (isFinal ? ' (Final)' : '');
+  }
+
   ngOnInit(): void {
     this.isLoading = true;
     const getElection = this.route.paramMap.pipe(
@@ -66,16 +78,19 @@ export class ResultsPageComponent implements OnInit {
     });
   }
 
-  changeChartType() {
+  onChangeChartType() {
     this.loadChart();
   }
 
-  get roundName(): string {
-    if (!this.electionResult?.rounds) {
-      return "0";
-    }
-    const isFinal = this.roundNumber == this.electionResult.rounds.length - 1;
-    return `${this.roundNumber + 1}` + (isFinal ? ' (Final)' : '');
+  onNextRoundClick() {
+    this.roundNumber++;
+    this.loadChart();
+  }
+
+  onPreviousRoundClick() {
+    console.log('++++ onPreviousRoundClick');
+    this.roundNumber--;
+    this.loadChart();
   }
 
   private loadChart() {

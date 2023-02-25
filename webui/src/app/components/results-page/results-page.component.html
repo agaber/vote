@@ -12,23 +12,44 @@
           name="chartType"
           value="hbar"
           [(ngModel)]="chartType">
-        <mat-button-toggle id="hbarButton" matTooltip="Horizontal bar chart" value="hbar" (click)="changeChartType()">
+        <mat-button-toggle
+            id="hbarButton"
+            matTooltip="Horizontal bar chart"
+            value="hbar"
+            (click)="onChangeChartType()">
           <mat-icon aria-label="Horizontal bar chart">sort</mat-icon>
         </mat-button-toggle>
-        <mat-button-toggle id="vbarButton" matTooltip="Vertical bar chart" value="vbar" (click)="changeChartType()">
+        <mat-button-toggle
+            id="vbarButton"
+            matTooltip="Vertical bar chart"
+            value="vbar"
+            (click)="onChangeChartType()">
           <mat-icon aria-label="Vertical bar chart">bar_chart</mat-icon>
         </mat-button-toggle>
-        <mat-button-toggle id="pieButton" matTooltip="Pie chart" value="pie" (click)="changeChartType()">
+        <mat-button-toggle
+            id="pieButton"
+            matTooltip="Pie chart"
+            value="pie"
+            (click)="onChangeChartType()">
           <mat-icon aria-label="Pie chart">pie_chart</mat-icon>
         </mat-button-toggle>
       </mat-button-toggle-group>
     </div>
 
-    <div id="resultsContainer">
+    <div id="resultsContainer" [ngClass]="chartType === 'pie' ? 'piechart' : ''">
       <canvas id="resultsCanvas"></canvas>
     </div>
 
-    <h3>Ranked choice leader: {{ electionResult?.winner }}</h3>
+    <app-pager
+        [pageNumber]="roundNumber + 1"
+        [numberOfPages]="numberOfRounds"
+        (nextButtonClick)="onNextRoundClick()"
+        (previousButtonClick)="onPreviousRoundClick()">
+    </app-pager>
+
+    <div>
+      Ranked choice leader: {{ electionResult?.winner }}
+    </div>
   </mat-card-content>
 
   <mat-card-actions align="end">

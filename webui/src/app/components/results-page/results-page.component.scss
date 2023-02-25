@@ -1,6 +1,9 @@
 #resultsContainer {
-  height: 480px;
   width: 100%;
+}
+
+#resultsContainer.piechart {
+  height: 480px;
 }
 
 #chartTypeButtonToggle {
