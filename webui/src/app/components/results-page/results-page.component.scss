@@ -50,3 +50,20 @@
   vertical-align: unset;
   width: 100%;
 }
+
+.info {
+  display: table;
+}
+
+.info span {
+  display: table-cell;
+  padding: 2px;
+}
+
+.info .column1 {
+  width: 11em;
+}
+
+.info .column2 {
+  overflow: hidden;
+}

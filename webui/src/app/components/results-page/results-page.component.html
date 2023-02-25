@@ -49,9 +49,11 @@
       <canvas id="resultsCanvas"></canvas>
     </div>
 
-    <div>
-      Ranked choice leader: {{ electionResult?.winner }}
+    <div class="info">
+      <span class="column1">Ranked choice leader:</span>
+      <span class="column2">{{ electionResult?.winner }}</span>
     </div>
+    <!-- TODO: Display number of votes and number of rounds. -->
   </mat-card-content>
 
   <mat-card-actions align="end">
