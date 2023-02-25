@@ -24,10 +24,6 @@ describe('ElectionService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('test environment variables should be enabled', () => {
-    expect(env.apiUrl).toEqual("https://notreal.test/vote/api/v1");
-  });
-
   it('should create new elections', () => {
     const newElection: Election = {
       question: 'What is the fish of the day?',
@@ -108,3 +104,10 @@ describe('ElectionService', () => {
     req.flush(expectedElectionResult);
   });
 });
+
+describe('test environment', () => {
+  it('should make variables available with expected values', () => {
+    expect(env.apiUrl).toEqual("https://notreal.test/vote/api/v1");
+    expect(env.uiUrl).toEqual("https://ui.notreal.test");
+  });
+})

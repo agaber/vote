@@ -6,6 +6,7 @@ import { switchMap } from "rxjs";
 
 import { Election } from "@/app/model/election";
 import { ElectionService } from "@/app/services/election.service";
+import { environment as env } from "@/environments/environment";
 import { ShareDialogComponent } from "../share-dialog/share-dialog.component";
 
 @Component({
@@ -77,7 +78,7 @@ export class VotePageComponent implements OnInit {
   }
 
   showShareDialog() {
-    const shareUrl = window.location.href;
+    const shareUrl = `${env.uiUrl}/vote/${this.election?.id}`
     this.shareDialog.open(shareUrl);
   }
 
