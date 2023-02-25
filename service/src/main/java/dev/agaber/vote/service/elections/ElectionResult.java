@@ -42,9 +42,8 @@ public class ElectionResult {
   private final Election election;
 
   /**
-   * The results for each round of counting. The order of the array is reversed, so that the zero
-   * element is the last voting round and the last element is the first. In traditional elections
-   * there will only be one round.
+   * The results for each round of counting. In traditional elections there will only be one round.
+   * In an instant-runoff there can be multiple rounds if no option has at least 50% of the votes.
    */
   @Singular
   private final List<Round> rounds;

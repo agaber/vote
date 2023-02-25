@@ -99,7 +99,7 @@ export class ResultsPageComponent implements OnInit {
           label: `Number of votes in round ${this.roundName}`,
           data: round.counts.map(c => c.votesCounted),
           backgroundColor: COLORS,
-          borderWidth: 0,
+          borderWidth: this.chartType === ChartType.PIE ? 0.5 : 0,
         }],
       },
       options: {
