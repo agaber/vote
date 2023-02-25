@@ -111,17 +111,16 @@ final class ElectionService {
     // response which we can hopefully use to build cool graphs rather than just printing a winner.
     var numVoters = votes.size();
     var winner = Optional.<String>empty();
-    String lowestVoteGetter = getLowestVoteGetter(counter);
+    var lowestVoteGetter = getLowestVoteGetter(counter);
     var choiceCounts = ImmutableList.<ElectionResult.Choice>builder();
-    for (var e : counter.entrySet()) {
-      var choiceText = e.getKey();
-      var choiceCount = e.getValue();
+    for (var choiceText : electionResultBuilder.build().getElection().getOptions()) {
+      var choiceCount = counter.getOrDefault(choiceText, 0);
       var choice = ElectionResult.Choice.builder()
           .text(choiceText)
           .votesCounted(choiceCount)
           .isEliminated(choiceText.equals(lowestVoteGetter))
           .build();
-      if (choiceCount / (numVoters * 1.0) * 100 >= 50.0) {
+      if (choiceCount / (numVoters * 1.0) * 100 >= 50.0 && winner.isEmpty()) {
         winner = Optional.of(choice.getText());
       }
       choiceCounts.add(choice);

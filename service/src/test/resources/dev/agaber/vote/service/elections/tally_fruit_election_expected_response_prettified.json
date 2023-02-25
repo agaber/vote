@@ -14,76 +14,14 @@
     {
       "counts": [
         {
-          "counts": [
-            {
-              "text": "avocado",
-              "votesCounted": 11,
-              "eliminated": false
-            },
-            {
-              "text": "tomato",
-              "votesCounted": 9,
-              "eliminated": true
-            }
-          ]
-        },
-        {
-          "counts": [
-            {
-              "text": "banana",
-              "votesCounted": 5,
-              "eliminated": true
-            },
-            {
-              "text": "avocado",
-              "votesCounted": 6,
-              "eliminated": false
-            },
-            {
-              "text": "tomato",
-              "votesCounted": 9,
-              "eliminated": false
-            }
-          ]
-        },
-        {
-          "counts": [
-            {
-              "text": "banana",
-              "votesCounted": 5,
-              "eliminated": false
-            },
-            {
-              "text": "orange",
-              "votesCounted": 3,
-              "eliminated": true
-            },
-            {
-              "text": "avocado",
-              "votesCounted": 6,
-              "eliminated": false
-            },
-            {
-              "text": "tomato",
-              "votesCounted": 6,
-              "eliminated": false
-            }
-          ]
+          "text": "apple",
+          "votesCounted": 1,
+          "eliminated": true
         },
         {
           "text": "banana",
           "votesCounted": 5,
           "eliminated": false
-        },
-        {
-          "text": "orange",
-          "votesCounted": 3,
-          "eliminated": false
-        },
-        {
-          "text": "apple",
-          "votesCounted": 1,
-          "eliminated": true
         },
         {
           "text": "avocado",
@@ -93,6 +31,98 @@
         {
           "text": "tomato",
           "votesCounted": 6,
+          "eliminated": false
+        },
+        {
+          "text": "orange",
+          "votesCounted": 3,
+          "eliminated": false
+        }
+      ]
+    },
+    {
+      "counts": [
+        {
+          "text": "apple",
+          "votesCounted": 0,
+          "eliminated": false
+        },
+        {
+          "text": "banana",
+          "votesCounted": 5,
+          "eliminated": false
+        },
+        {
+          "text": "avocado",
+          "votesCounted": 6,
+          "eliminated": false
+        },
+        {
+          "text": "tomato",
+          "votesCounted": 6,
+          "eliminated": false
+        },
+        {
+          "text": "orange",
+          "votesCounted": 3,
+          "eliminated": true
+        }
+      ]
+    },
+    {
+      "counts": [
+        {
+          "text": "apple",
+          "votesCounted": 0,
+          "eliminated": false
+        },
+        {
+          "text": "banana",
+          "votesCounted": 5,
+          "eliminated": true
+        },
+        {
+          "text": "avocado",
+          "votesCounted": 6,
+          "eliminated": false
+        },
+        {
+          "text": "tomato",
+          "votesCounted": 9,
+          "eliminated": false
+        },
+        {
+          "text": "orange",
+          "votesCounted": 0,
+          "eliminated": false
+        }
+      ]
+    },
+    {
+      "counts": [
+        {
+          "text": "apple",
+          "votesCounted": 0,
+          "eliminated": false
+        },
+        {
+          "text": "banana",
+          "votesCounted": 0,
+          "eliminated": false
+        },
+        {
+          "text": "avocado",
+          "votesCounted": 11,
+          "eliminated": false
+        },
+        {
+          "text": "tomato",
+          "votesCounted": 9,
+          "eliminated": true
+        },
+        {
+          "text": "orange",
+          "votesCounted": 0,
           "eliminated": false
         }
       ]
