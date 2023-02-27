@@ -11,8 +11,11 @@
             matInput
             placeholder="Enter a question here"
             required>
-        <mat-error *ngIf="form.controls.question.invalid">
+        <mat-error *ngIf="form.controls.question.errors?.['required']">
           Please enter a question to vote on in your election.
+        </mat-error>
+        <mat-error *ngIf="form.controls.question.errors?.['maxlength']">
+          Question is too long. Please limit to 1000 characters.
         </mat-error>
       </mat-form-field>
 
@@ -29,8 +32,14 @@
                 *ngIf="options.length > 1">
               <mat-icon>close</mat-icon>
             </button>
-            <mat-error *ngIf="form.controls.options.at(i).invalid">
+            <mat-error *ngIf="form.controls.options.at(i).errors?.['required']">
               Please enter text for each voting option.
+            </mat-error>
+            <mat-error *ngIf="form.controls.options.at(i).errors?.['maxlength']">
+              Please limit to 1000 characters.
+            </mat-error>
+            <mat-error *ngIf="form.controls.options.at(i).errors?.['duplicate']">
+              Options may not be duplicated
             </mat-error>
           </mat-form-field>
         </div>

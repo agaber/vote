@@ -50,3 +50,8 @@ mat-card-actions {
     margin-left: 10px;
   }
 }
+
+::ng-deep .snackbar-text {
+  white-space: pre-wrap;
+  text-align: center;
+}

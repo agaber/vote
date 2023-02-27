@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms'
+import { AbstractControl, FormArray, FormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -14,15 +14,15 @@ import { ElectionService } from '@/app/services/election.service';
 export class ElectionPageComponent {
   constructor(
     private electionService: ElectionService,
-    private snackBar: MatSnackBar,
     private fb: FormBuilder,
-    private router: Router) { }
+    private router: Router,
+    private snackBar: MatSnackBar) { }
 
   form = this.fb.group({
-    question: ['', Validators.required],
+    question: ['', [Validators.required, Validators.maxLength(1000)]],
     options: this.fb.array([
-      this.fb.control('', Validators.required),
-      this.fb.control('', Validators.required),
+      this.fb.control('', this.optionsValidators),
+      this.fb.control('', this.optionsValidators),
     ]),
   });
 
@@ -30,6 +30,10 @@ export class ElectionPageComponent {
 
   get options(): FormArray {
     return this.form.controls['options'];
+  }
+
+  get optionsValidators() {
+    return [Validators.required, Validators.maxLength(1000), this.noDuplicateOptionValidator()];
   }
 
   setLoading(isLoading: boolean) {
@@ -42,7 +46,7 @@ export class ElectionPageComponent {
   }
 
   onAddOption() {
-    this.options.push(this.fb.control('', Validators.required));
+    this.options.push(this.fb.control('', this.optionsValidators));
   }
 
   onRemoveOption(index: number) {
@@ -73,5 +77,25 @@ export class ElectionPageComponent {
         this.setLoading(false);
       }
     });
+  }
+
+  noDuplicateOptionValidator(): ValidatorFn {
+    const validator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+      if (this.form?.controls) {
+        console.log(control.value);
+        // There's other validations for empty input (required).
+        if (control.value.trim() === '') {
+          return null;
+        }
+        // FYI: Form options will not yet contain the full user entered value until after this
+        // function has finished executing.
+        const options = this.form.controls.options.value.map(v => v?.trim());
+        if (options.filter(v => v === control.value.trim()).length > 0) {
+          return { duplicate: { value: control.value } };
+        };
+      }
+      return null;
+    };
+    return validator;
   }
 }
