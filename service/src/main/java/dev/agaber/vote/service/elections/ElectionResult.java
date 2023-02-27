@@ -21,7 +21,7 @@ public class ElectionResult {
   @Builder(toBuilder = true)
   @Jacksonized
   public static class Choice {
-    private boolean isEliminated;
+    private final boolean isEliminated;
     private final String text;
     private final int votesCounted;
   }

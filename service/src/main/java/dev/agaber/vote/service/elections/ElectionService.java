@@ -89,12 +89,16 @@ final class ElectionService {
       Set<String> eliminated,
       ElectionResultBuilder electionResultBuilder) {
     var counter = new HashMap<String, Integer>();
-
+    var numVoters = votes.size();
 
     for (var vote : votes) {
       // Count the first choice that isn't eliminated yet.
       var maybeChoice = vote.getChoices().stream().filter(not(eliminated::contains)).findFirst();
+
+      // If a voter has no more choices left, then they are no longer part of the election.
+      // We must decrement the total number of voters so that the percentage calculations work.
       if (maybeChoice.isEmpty()) {
+        numVoters--;
         continue;
       }
 
@@ -105,11 +109,16 @@ final class ElectionService {
       // in this round so we can include the data in the response.
     }
 
+    // Eliminate options that did not receive any votes in the first round.
+    if (electionResultBuilder.build().getRounds().isEmpty()) {
+      var noVotes = electionResultBuilder.build().getElection().getOptions().stream()
+          .filter(o -> !counter.containsKey(o))
+          .collect(toImmutableList());
+      eliminated.addAll(noVotes);
+    }
+
     // This next block of code is converting things into response objects while trying to keep
     // track of who is eliminated and who has won.
-    // This code is admittedly ugly and only exists so that we can include results data in the
-    // response which we can hopefully use to build cool graphs rather than just printing a winner.
-    var numVoters = votes.size();
     var winner = Optional.<String>empty();
     var lowestVoteGetter = getLowestVoteGetter(counter);
     var choiceCounts = ImmutableList.<ElectionResult.Choice>builder();
@@ -118,9 +127,9 @@ final class ElectionService {
       var choice = ElectionResult.Choice.builder()
           .text(choiceText)
           .votesCounted(choiceCount)
-          .isEliminated(choiceText.equals(lowestVoteGetter))
+          .isEliminated(lowestVoteGetter.equals(choiceText) || eliminated.contains(choiceText))
           .build();
-      if (choiceCount / (numVoters * 1.0) * 100 >= 50.0 && winner.isEmpty()) {
+      if (choiceCount / (numVoters * 1.0) >= .5 && winner.isEmpty()) {
         winner = Optional.of(choice.getText());
       }
       choiceCounts.add(choice);

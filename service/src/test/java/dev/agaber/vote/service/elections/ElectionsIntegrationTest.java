@@ -254,8 +254,8 @@ final class ElectionsIntegrationTest {
     // Compare the raw response to a JSON string from file.
     // I'm being lazy here but constructing the rounds response in Java kinda sucks.
     // Serializing things with this framework kinda sucks too.
-     var rawResponse = restTemplate.postForObject(path, null, String.class).toString();
-     assertThat(rawResponse).isEqualTo(read("tally_fruit_election_expected_response.json"));
+    var rawResponse = restTemplate.postForObject(path, null, String.class);
+    assertThat(rawResponse).isEqualTo(read("tally_fruit_election_expected_response.json"));
   }
 
   @Test
