@@ -2,6 +2,7 @@ package dev.agaber.vote.service.elections;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static dev.agaber.vote.service.converters.Converters.toDocument;
 import static dev.agaber.vote.service.converters.Converters.toObjectId;
 import static dev.agaber.vote.service.converters.Converters.toResource;
@@ -20,6 +21,7 @@ import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -29,6 +31,9 @@ import java.util.Set;
 /** Manages election logic, including storing election configs and tallying votes. */
 @Service
 final class ElectionService {
+  /** Arbitrary restriction on the size of any string input. */
+  private static final int MAX_STRING_CHARS = 5000;
+
   private final ElectionRepository electionRepository;
   private final VoteRepository voteRepository;
 
@@ -44,6 +49,20 @@ final class ElectionService {
     checkArgument(
         election.getId() == null,
         "Cannot create an election if an ID has already been set");
+    checkArgument(
+        isValidInputString(election.getQuestion()),
+        "Question cannot be empty and must not exceed %s characters.",
+        MAX_STRING_CHARS);
+    checkArgument(
+        !hasDuplicates(election.getOptions()),
+        "Election choices cannot be repeated.");
+    checkArgument(
+        election.getOptions().stream()
+            .filter(not(ElectionService::isValidInputString))
+            .toList()
+            .isEmpty(),
+        "Election options cannot be empty and must not exceed %s characters.",
+        MAX_STRING_CHARS);
     return toResource(electionRepository.insert(toDocument(election)));
   }
 
@@ -61,10 +80,14 @@ final class ElectionService {
     checkArgument(maybeElection.isPresent(), "No election with ID %s", electionId);
     checkArgument(
         hasValidChoices(maybeElection.get(), choices),
-        "Choices did not match election options. Valid options are %s",
+        "Choices may not be duplicated and must match one of [%s]",
         maybeElection.get().getOptions());
     var electionObjectId = toObjectId(electionId);
-    var voteDoc = VoteDocument.builder().electionObjectId(electionObjectId).choices(choices).build();
+    var voteDoc =
+        VoteDocument.builder()
+            .electionObjectId(electionObjectId)
+            .choices(choices.stream().map(String::trim).toList())
+            .build();
     return toResource(voteRepository.insert(voteDoc));
   }
 
@@ -159,6 +182,17 @@ final class ElectionService {
   }
 
   private static boolean hasValidChoices(ElectionDocument election, ImmutableList<String> choices) {
-    return ImmutableSet.copyOf(election.getOptions()).containsAll(choices);
+    return !choices.isEmpty()
+        && ImmutableSet.copyOf(election.getOptions()).containsAll(choices)
+        && !hasDuplicates(choices);
+  }
+
+  private static boolean hasDuplicates(Collection<String> values) {
+    var upperCaseSet = values.stream().map(String::toUpperCase).collect(toImmutableSet());
+    return upperCaseSet.size() != values.size();
+  }
+
+  private static boolean isValidInputString(String string) {
+    return !string.isBlank() && string.trim().length() <= MAX_STRING_CHARS;
   }
 }

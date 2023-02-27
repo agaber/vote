@@ -99,6 +99,28 @@ final class ElectionsIntegrationTest {
   }
 
   @Test
+  public void create_hasDuplicateOptions_throwsBadRequestException() throws Exception {
+    var newElection = Election.builder()
+        .id("123")
+        .question("What do you want for lunch?")
+        .options(ImmutableList.of("pizza", "pizza", "pizza"))
+        .build();
+    var response = restTemplate.postForEntity(basePath(), newElection, Election.class);
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+  }
+
+  @Test
+  public void create_hasEmptyOptions_throwsBadRequestException() throws Exception {
+    var newElection = Election.builder()
+        .id("123")
+        .question("What do you want for lunch?")
+        .options(ImmutableList.of("pizza", "   ", "anything"))
+        .build();
+    var response = restTemplate.postForEntity(basePath(), newElection, Election.class);
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+  }
+
+  @Test
   public void getById_found_returnsElection() throws Exception {
     var path = String.format("%s/%s", basePath(), FRUIT_ELECTION.getId());
     var response = restTemplate.getForObject(path, Election.class);
@@ -152,7 +174,7 @@ final class ElectionsIntegrationTest {
   }
 
   @Test
-  public void voteTwice() throws Exception {
+  public void voteTwice_validSavesTwoVotess() throws Exception {
     // Add one vote to the store to start.
     var electionId = FRUIT_ELECTION.getId();
     var firstVote = Vote.builder()
@@ -183,6 +205,25 @@ final class ElectionsIntegrationTest {
         .choice("banana")
         .build();
     assertThat(foundVotes).containsExactly(expectedFirstVoteDocument, expectedSecondVoteDocument);
+  }
+
+  @Test
+  public void vote_containsDuplicates_throwsError() throws Exception {
+    var path = String.format("%s/%s:vote", basePath(), FRUIT_ELECTION.getId());
+    var request = ElectionController.VoteRequest.builder()
+        .choice("apple")
+        .choice("apple")
+        .build();
+    var response = restTemplate.postForEntity(path, request, Vote.class);
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+  }
+
+  @Test
+  public void vote_noChoices_throwsError() throws Exception {
+    var path = String.format("%s/%s:vote", basePath(), FRUIT_ELECTION.getId());
+    var request = ElectionController.VoteRequest.builder().build();
+    var response = restTemplate.postForEntity(path, request, Vote.class);
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
   }
 
   @Test
