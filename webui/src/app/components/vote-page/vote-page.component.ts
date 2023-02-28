@@ -36,13 +36,10 @@ export class VotePageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('+++ ngOnInit');
     this.isLoadingElection = true;
     const getElection = this.route.paramMap.pipe(
       switchMap(params => {
-        console.log('+++ 1');
         const electionId = params.get('electionId')!;
-        console.log(`+++ electionId = ${electionId}`);
         // TODO: Figure out what to do if the electionId isn't in the URL.
         // Maybe show a random election? Could be a good homepage use case?
         return this.electionService.getById(electionId!);

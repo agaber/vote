@@ -28,10 +28,10 @@ mat-card-footer {
 }
 
 mat-card-header {
-  padding: 0 !important;
   margin-left: $mat-card-padding * -1;
   margin-right: $mat-card-padding * -1;
   margin-top: $mat-card-padding * -1;
+  padding: 0 !important;
 }
 
 mat-card-title {
@@ -52,6 +52,6 @@ mat-card-actions {
 }
 
 ::ng-deep .snackbar-text {
-  white-space: pre-wrap;
   text-align: center;
+  white-space: pre-wrap;
 }

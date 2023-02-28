@@ -1,0 +1,54 @@
+$royal_blue: #4169e1;
+$white: #FFF;
+
+mat-toolbar {
+  background-color: $royal_blue;
+  color: $white;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 20;
+}
+
+mat-toolbar a {
+  padding-top: 14px;
+}
+
+#logo img {
+  height: 25px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+#githubLink {
+  color: inherit;
+  background-color: $royal_blue;
+}
+
+#githubLink {
+  padding: 0;
+}
+
+#githubLink #wrapper {
+  display: table;
+  line-height: 36px;
+  text-align: center;
+}
+
+#githubLink img {
+  display: table-cell;
+  height: 26px;
+  padding-right: 5px;
+  padding-top: 3px;
+  vertical-align: middle;
+}
+
+#githubLink span {
+  display: table-cell;
+  font-size: 14px;
+  text-align: center;
+  vertical-align: middle;
+}
