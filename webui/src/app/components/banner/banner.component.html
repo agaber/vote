@@ -3,21 +3,18 @@
     <mat-icon>menu</mat-icon>
   </button>
 
-  <a id="logo" aria-label="Go home button" href="/vote">
+  <a id="logo" aria-label="Go home button" href="/">
     <img src="assets/banner-logo.png" />
   </a>
 
   <mat-menu #menu="matMenu">
-    <a aria-label="Create a new election" href="/vote/election/create" mat-menu-item>
+    <a aria-label="Create a new election" href="/election/create" mat-menu-item>
       <mat-icon>edit_note</mat-icon>Create
     </a>
-    <a aria-label="Vote in an election" href="/vote" mat-menu-item >
+    <a aria-label="Vote in an election" href="/" mat-menu-item >
       <mat-icon>how_to_vote_outlined</mat-icon>Vote
     </a>
-    <button aria-label="Share" mat-menu-item (click)="share()">
-      <mat-icon>share_outlined</mat-icon>Share
-    </button>
-    <a aria-label="About" href="/vote/about" mat-menu-item>
+    <a aria-label="About" href="/about" mat-menu-item>
       <mat-icon>info_outlined</mat-icon>About
     </a>
   </mat-menu>

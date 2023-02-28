@@ -19,7 +19,7 @@ export class ShareDialogComponent {
     private snackBar: MatSnackBar) { }
 
   open(electionId: string) {
-    const shareUrl = `${env.uiUrl}/vote/${electionId}`
+    const shareUrl = `${env.uiUrl}/${electionId}`
     this.dialog.open(ShareDialogComponent, { data: { shareUrl } });
   }
 
