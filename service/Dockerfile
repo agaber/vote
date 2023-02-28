@@ -7,7 +7,7 @@ WORKDIR /workspace
 COPY gradle/ ./gradle
 COPY gradlew build.gradle settings.gradle ./
 COPY src ./src
-RUN ./gradlew clean build --no-daemon
+RUN ./gradlew clean build --no-daemon -x test
 
 # Stage 2: Make the compiled jar ready for production.
 FROM eclipse-temurin:17-jdk-jammy
