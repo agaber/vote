@@ -5,12 +5,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { VotePageComponent } from '@/app/components/vote-page/vote-page.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'vote', pathMatch: 'full' },
   // { path: 'vote/about', component: AboutPageComponent }
-  { path: 'vote/election/create', component: ElectionPageComponent },
-  { path: 'vote/:electionId/results', component: ResultsPageComponent },
-  { path: 'vote/:electionId', component: VotePageComponent },
-  { path: 'vote', component: VotePageComponent },
+  { path: 'election/create', component: ElectionPageComponent },
+  { path: ':electionId/results', component: ResultsPageComponent },
+  { path: ':electionId', component: VotePageComponent },
+  { path: '', component: VotePageComponent },
 ];
 
 @NgModule({
