@@ -7,6 +7,7 @@ import { Title } from '@angular/platform-browser';
 
 import { Election } from "@/app/model/election";
 import { ElectionService } from "@/app/services/election.service";
+import { environment as env } from "@/environments/environment";
 import { ShareDialogComponent } from "@/app/components/share-dialog/share-dialog.component";
 
 @Component({
@@ -39,9 +40,15 @@ export class VotePageComponent implements OnInit {
     this.isLoadingElection = true;
     const getElection = this.route.paramMap.pipe(
       switchMap(params => {
-        const electionId = params.get('electionId')!;
-        // TODO: Figure out what to do if the electionId isn't in the URL.
-        // Maybe show a random election? Could be a good homepage use case?
+        let electionId = params.get('electionId');
+
+        // Randomly choose from a set of pre-approved elections if no ID present.
+        // TODO: Random should probably be part of a mockable service.
+        if (!electionId) {
+          const randIdx = Math.floor(Math.random() * env.demoElectionIds.length);
+          electionId = env.demoElectionIds[randIdx];
+        }
+
         return this.electionService.getById(electionId!);
       })
     );
