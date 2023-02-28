@@ -102,7 +102,7 @@ export class ResultsPageComponent implements OnInit {
         // Initially display the final round.
         this.roundNumber = electionResult?.rounds!.length - 1;
         this.titleService
-          .setTitle(`${this.electionResult.election.question} - Results - @agaber.dev`);
+          .setTitle(`${this.electionResult.election.question} - Results - @gaber.dev`);
         this.loadChart();
         this.isLoading = false;
       },

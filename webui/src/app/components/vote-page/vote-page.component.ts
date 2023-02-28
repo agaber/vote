@@ -54,7 +54,7 @@ export class VotePageComponent implements OnInit {
         this.election = election;
         this.options = [...election.options || []];
         this.question = election.question;
-        this.titleService.setTitle(`${election.question!} - Vote - @agaber.dev`);
+        this.titleService.setTitle(`${election.question!} - Vote - @gaber.dev`);
         this.isLoadingElection = false;
       },
       error: err => {
