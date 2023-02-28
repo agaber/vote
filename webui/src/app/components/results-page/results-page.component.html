@@ -6,7 +6,7 @@
   <mat-card-content>
     <mat-card-title>{{ electionResult?.election?.question }}</mat-card-title>
 
-    <div id="chartTypeButtonToggle">
+    <div id="chartTypeButtonToggle" *ngIf="displayResults">
       <app-pager
           id="pager"
           label="Round {{ roundLabel }}"
@@ -45,13 +45,13 @@
       </mat-button-toggle-group>
     </div>
 
-    <div id="resultsContainer" [ngClass]="chartType === 'pie' ? 'piechart' : ''">
+    <div id="resultsContainer" [ngClass]="chartType === 'pie' ? 'piechart' : ''" *ngIf="displayResults">
       <canvas id="resultsCanvas"></canvas>
     </div>
 
     <div class="info">
       <span class="column1">Ranked choice leader:</span>
-      <span class="column2">{{ electionResult?.winner }}</span>
+      <span class="column2">{{ winner }}</span>
     </div>
     <!-- TODO: Display number of votes and number of rounds. -->
   </mat-card-content>

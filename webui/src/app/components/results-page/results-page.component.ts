@@ -46,6 +46,10 @@ export class ResultsPageComponent implements OnInit {
   isLoading = false;
   roundNumber = 0;
 
+  get displayResults() {
+    return this.electionResult?.rounds && this.electionResult?.winner;
+  }
+
   get numberOfRounds() {
     return (this.electionResult?.rounds || []).length;
   }
@@ -55,6 +59,10 @@ export class ResultsPageComponent implements OnInit {
       return "";
     }
     return `${this.roundNumber + 1} of ${this.electionResult?.rounds.length}`;
+  }
+
+  get winner() {
+    return this.electionResult?.winner || 'Not enough votes to be determined';
   }
 
   ngOnInit(): void {
@@ -99,11 +107,13 @@ export class ResultsPageComponent implements OnInit {
     getElection.subscribe({
       next: electionResult => {
         this.electionResult = electionResult;
-        // Initially display the final round.
-        this.roundNumber = electionResult?.rounds!.length - 1;
-        this.titleService
-          .setTitle(`${this.electionResult.election.question} - Results - @gaber.dev`);
-        this.loadChart();
+        if (electionResult.rounds && electionResult.winner) {
+          // Initially display the final round.
+          this.roundNumber = electionResult?.rounds!.length - 1;
+          this.titleService
+            .setTitle(`${this.electionResult.election.question} - Results - @gaber.dev`);
+          this.loadChart();
+        }
         this.isLoading = false;
       },
       error: err => {

@@ -52,6 +52,6 @@ mat-card-actions {
 }
 
 ::ng-deep .snackbar-text {
-  text-align: center;
-  white-space: pre-wrap;
+  text-align: center !important;
+  white-space: pre-wrap !important;
 }

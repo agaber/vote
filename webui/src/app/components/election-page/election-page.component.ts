@@ -72,14 +72,12 @@ export class ElectionPageComponent implements OnInit {
     this.setLoading(true);
     this.electionService.create(election).subscribe({
       next: savedElection => {
-        this.router.navigate([`/vote/${savedElection.id}`]);
+        this.router.navigate([`${savedElection.id}`]);
         this.setLoading(false);
         this.form.reset();
       },
       error: error => {
-        const message =
-          `Oops! There was an unexpected error. Please try again later.\nError: "${error.statusText}"`;
-        this.snackBar.open(message, 'Dismiss', { panelClass: 'snackbar-text' });
+        this.showErrorMessage(error);
         this.setLoading(false);
       }
     });
@@ -102,5 +100,11 @@ export class ElectionPageComponent implements OnInit {
       return null;
     };
     return validator;
+  }
+
+  private showErrorMessage(err: any) {
+    const message =
+      `Oops! There was an unexpected error. Please try again later.\nError: "${err.statusText}"`;
+    this.snackBar.open(message, 'Dismiss', { panelClass: 'snackbar-text' });
   }
 }
