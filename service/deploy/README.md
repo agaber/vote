@@ -92,12 +92,12 @@ but it takes a _really_ long time on an M2 processor. I just built my docker ima
 
 1. Apply the configmap changes.
    ```shell
-   $ kubectl apply -f k8s/configs/dev.yaml
+   $ kubectl apply -f deply/configs/dev.yaml
    ```
 
 1. Apply everything else.
    ```shell
-   $ kubectl apply -f k8s/voteservice.yaml
+   $ kubectl apply -f deply/voteapi.yaml
    ```
    
 1. Do more Minikube things.
