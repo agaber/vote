@@ -91,7 +91,7 @@ export class VotePageComponent implements OnInit {
     this.isSubmitting = true;
     this.electionService.vote(this.election?.id!, this.choices).subscribe({
       next: vote => {
-        this.router.navigate([`/vote/${vote.electionId}/results`]);
+        this.router.navigate([`${vote.electionId}/results`]);
         this.reset();
         this.isSubmitting = false;
       },
