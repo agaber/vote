@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Title } from '@angular/platform-browser';
 
 import { Election } from '@/app/model/election';
 import { ElectionService } from '@/app/services/election.service';
@@ -11,12 +12,13 @@ import { ElectionService } from '@/app/services/election.service';
   styleUrls: ['election-page.component.scss'],
   templateUrl: 'election-page.component.html',
 })
-export class ElectionPageComponent {
+export class ElectionPageComponent implements OnInit {
   constructor(
     private electionService: ElectionService,
     private fb: FormBuilder,
     private router: Router,
-    private snackBar: MatSnackBar) { }
+    private snackBar: MatSnackBar,
+    private titleService: Title) { }
 
   form = this.fb.group({
     question: ['', [Validators.required, Validators.maxLength(1000)]],
@@ -34,6 +36,10 @@ export class ElectionPageComponent {
 
   get optionsValidators() {
     return [Validators.required, Validators.maxLength(1000), this.noDuplicateOptionValidator()];
+  }
+
+  ngOnInit(): void {
+    this.titleService.setTitle('Create a new election - @gaber.dev');
   }
 
   setLoading(isLoading: boolean) {
@@ -82,7 +88,6 @@ export class ElectionPageComponent {
   noDuplicateOptionValidator(): ValidatorFn {
     const validator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
       if (this.form?.controls) {
-        console.log(control.value);
         // There's other validations for empty input (required).
         if (control.value.trim() === '') {
           return null;

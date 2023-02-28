@@ -3,6 +3,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { switchMap } from "rxjs";
+import { Title } from '@angular/platform-browser';
 
 import { Election } from "@/app/model/election";
 import { ElectionService } from "@/app/services/election.service";
@@ -19,7 +20,8 @@ export class VotePageComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private shareDialog: ShareDialogComponent,
-    private snackBar: MatSnackBar) {
+    private snackBar: MatSnackBar,
+    private titleService: Title) {
   }
 
   choices: string[] = [];
@@ -34,10 +36,13 @@ export class VotePageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('+++ ngOnInit');
     this.isLoadingElection = true;
     const getElection = this.route.paramMap.pipe(
       switchMap(params => {
+        console.log('+++ 1');
         const electionId = params.get('electionId')!;
+        console.log(`+++ electionId = ${electionId}`);
         // TODO: Figure out what to do if the electionId isn't in the URL.
         // Maybe show a random election? Could be a good homepage use case?
         return this.electionService.getById(electionId!);
@@ -49,6 +54,7 @@ export class VotePageComponent implements OnInit {
         this.election = election;
         this.options = [...election.options || []];
         this.question = election.question;
+        this.titleService.setTitle(`${election.question!} - Vote - @agaber.dev`);
         this.isLoadingElection = false;
       },
       error: err => {

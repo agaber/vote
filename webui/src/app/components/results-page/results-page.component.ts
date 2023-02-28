@@ -3,9 +3,10 @@ import { Chart } from "chart.js/auto";
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { switchMap } from "rxjs";
+import { Title } from '@angular/platform-browser';
 
 import { ElectionService } from "@/app/services/election.service";
-import { ElectionResult, Choice, Round } from "@/app/model/election_result";
+import { ElectionResult } from "@/app/model/election_result";
 import { ShareDialogComponent } from "@/app/components/share-dialog/share-dialog.component";
 
 
@@ -35,7 +36,8 @@ export class ResultsPageComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private shareDialog: ShareDialogComponent,
-    private snackBar: MatSnackBar) {
+    private snackBar: MatSnackBar,
+    private titleService: Title) {
   }
 
   chart?: Chart<any, any, any>;
@@ -99,6 +101,8 @@ export class ResultsPageComponent implements OnInit {
         this.electionResult = electionResult;
         // Initially display the final round.
         this.roundNumber = electionResult?.rounds!.length - 1;
+        this.titleService
+          .setTitle(`${this.electionResult.election.question} - Results - @agaber.dev`);
         this.loadChart();
         this.isLoading = false;
       },
