@@ -5,6 +5,6 @@ export const environment = {
   demoElectionIds: [
     '63f00c68a5050bd4babf3de1', // What is the best fruit?
     '63f00c83a5050bd4babf3de2', // What is the best vegetable?
-    '63fe7b7e1acd567ea4cc9c30', // Animal Kingdom
+    '63fe7ebffc80f242808ebdeb', // Animal Kingdom
   ],
 };
