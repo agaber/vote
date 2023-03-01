@@ -45,8 +45,11 @@ export class VotePageComponent implements OnInit {
         // Randomly choose from a set of pre-approved elections if no ID present.
         // TODO: Random should probably be part of a mockable service.
         if (!electionId) {
+          console.log('ok');
           const randIdx = Math.floor(Math.random() * env.demoElectionIds.length);
+          console.log(randIdx);
           electionId = env.demoElectionIds[randIdx];
+          console.log(electionId);
         }
 
         return this.electionService.getById(electionId!);
