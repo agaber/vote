@@ -93,7 +93,7 @@ export class ResultsPageComponent implements OnInit {
 
   vote() {
     const electionId = this.electionResult?.election?.id || '';
-    this.router.navigate([`/${electionId}`]);
+    this.router.navigate([electionId]);
   }
 
   private fetchResults() {
