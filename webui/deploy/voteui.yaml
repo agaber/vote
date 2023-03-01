@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: voteui
-          image: macdoogles/voteui:1.0.0
+          image: macdoogles/voteui:1.0.1
           imagePullPolicy: Always
           ports:
             - containerPort: 80
