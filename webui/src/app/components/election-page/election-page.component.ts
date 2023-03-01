@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms'
+import { FormArray, FormBuilder, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
@@ -35,7 +35,7 @@ export class ElectionPageComponent implements OnInit {
   }
 
   get optionsValidators() {
-    return [Validators.required, Validators.maxLength(1000), this.noDuplicateOptionValidator()];
+    return [Validators.required, Validators.maxLength(1000)];
   }
 
   ngOnInit(): void {
@@ -64,9 +64,12 @@ export class ElectionPageComponent implements OnInit {
       return;
     }
 
+    const options = this.form.controls.options.value;
+    const uniqueOptions
+      = new Set(options.map(v => (v || '').trim()).filter(v => !!v));
     const election: Election = {
       question: this.form.controls.question.value || '',
-      options: this.form.controls.options.value.filter(v => !!v) as string[],
+      options: [...uniqueOptions],
     };
 
     this.setLoading(true);
@@ -81,25 +84,6 @@ export class ElectionPageComponent implements OnInit {
         this.setLoading(false);
       }
     });
-  }
-
-  noDuplicateOptionValidator(): ValidatorFn {
-    const validator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-      if (this.form?.controls) {
-        // There's other validations for empty input (required).
-        if (control.value.trim() === '') {
-          return null;
-        }
-        // FYI: Form options will not yet contain the full user entered value until after this
-        // function has finished executing.
-        const options = this.form.controls.options.value.map(v => v?.trim());
-        if (options.filter(v => v === control.value.trim()).length > 0) {
-          return { duplicate: { value: control.value } };
-        };
-      }
-      return null;
-    };
-    return validator;
   }
 
   private showErrorMessage(err: any) {

@@ -38,17 +38,13 @@
             <mat-error *ngIf="form.controls.options.at(i).errors?.['maxlength']">
               Please limit to 1000 characters.
             </mat-error>
-            <mat-error *ngIf="form.controls.options.at(i).errors?.['duplicate']">
-              Options may not be duplicated
-            </mat-error>
           </mat-form-field>
         </div>
 
         <button
             mat-raised-button
             (click)="onAddOption()"
-            [disabled]="isLoading"
-            *ngIf="form.controls.options.valid">
+            [disabled]="isLoading || !form.controls.options.valid">
           <mat-icon>add</mat-icon> Add another option
         </button>
       </div>
