@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed } from '@angular/core/testing';
 
 import { AppComponent } from '@/app/components/app/app.component';
+import { BannerComponent } from '../banner/banner.component';
 import { AppMaterialModule } from '@/app/app-material.module';
 import { ElectionPageComponent } from '@/app/components/election-page/election-page.component';
 import { HelpIconButtonComponent } from '../help-icon-button/help-icon-button.component';
@@ -20,6 +21,7 @@ describe('AppComponent', () => {
       ],
       declarations: [
         AppComponent,
+        BannerComponent,
         ElectionPageComponent,
         HelpIconButtonComponent,
         ResultsPageComponent,

@@ -9,7 +9,7 @@ import { AppMaterialModule } from '@/app/app-material.module';
 import { PagerComponent } from '../pager/pager.component';
 import { ResultsPageComponent } from '@/app/components/results-page/results-page.component';
 
-fdescribe('ResultsComponent', () => {
+describe('ResultsPageComponent', () => {
   let component: ResultsPageComponent;
   let de: DebugElement;
   let fixture: ComponentFixture<ResultsPageComponent>;

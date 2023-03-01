@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { AboutPageComponent } from '@/app/components/about-page/about-page.component';
 import { AppMaterialModule } from '@/app/app-material.module';
-import { BannerComponent } from '@/app/components/banner//banner.component';
 
-describe('BannerComponent', () => {
-  let component: BannerComponent;
-  let fixture: ComponentFixture<BannerComponent>;
+describe('AboutPageComponent', () => {
+  let component: AboutPageComponent;
+  let fixture: ComponentFixture<AboutPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [BannerComponent],
+      declarations: [AboutPageComponent],
       imports: [AppMaterialModule],
     })
       .compileComponents();
 
-    fixture = TestBed.createComponent(BannerComponent);
+    fixture = TestBed.createComponent(AboutPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -8,7 +8,7 @@ import { AppMaterialModule } from '@/app/app-material.module';
 import { HelpIconButtonComponent } from '@/app/components/help-icon-button/help-icon-button.component';
 import { VotePageComponent } from '@/app/components/vote-page/vote-page.component';
 
-describe('VoteComponentComponent', () => {
+describe('VotePageComponent', () => {
   let component: VotePageComponent;
   let de: DebugElement;
   let fixture: ComponentFixture<VotePageComponent>;

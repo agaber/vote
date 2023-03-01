@@ -1,0 +1,86 @@
+<mat-card class="mat-typography">
+  <mat-card-content>
+    <mat-card-title>About this app</mat-card-title>
+
+    <h2>Voting</h2>
+
+    <p><a href="https://en.wikipedia.org/wiki/Instant-runoff_voting">Instant-runoff voting</a>
+    (or ranked-choice voting or alternate vote) is a way of counting votes in
+    single-winner elections. In such elections, voters can choose multiple
+    candidates in order of preference. Behind the scenes, the algorithm can
+    calculate a winner over multiple rounds if necessary, doing its best to keep
+    voter preferences in mind.</p>
+
+    <p>CGP Grey's series of <a href="https://www.cgpgrey.com/politics-in-the-animal-kingdom/">YouTube videos</a>
+    do a great job of explaining the problems with traditional
+    first-past-the-post elections and how other voting algorithms can yield
+    fairer and more democratic results.</p>
+
+    <h2>This App</h2>
+
+    <p>The original intent of this application was to support instant run-off
+    elections. Users can create random elections with an arbitrary number of
+    choices and let people vote by submitting their ranked preferences and a
+    winner can be determined using the instant run-off algorithm.</p>
+
+    <p>Truth be told however, an ulterior motive for creating this app was for me
+    (agaber) to experiment with a few technologies. What follows are a few
+    highlights of the relevant technologies used to build this app.
+    </p>
+
+    <ul>
+      <li>
+        Kubernetes
+        <p>I am using Kubernetes to manage microservices on the cloud. For now
+        the cloud provider I'm currently using is DigitalOcean.
+        </p>
+      </li>
+
+      <li>
+        Java with Spring Boot
+        <p>So I actually like the Java programming language (I know right?) but
+        until now I have never tried Spring so I thought I'd give it a shot. To
+        be completely honest, I don't love it because there are quite a few
+        things that seem to happen at runtime or hidden behavior that changes
+        based on the binaries you import, but I was able to get set up quickly
+        and I was able to focus most of my time on writing code instead of
+        setting up boilerplate which was very cool.</p>
+      </li>
+
+      <li>
+        Mongo DB
+        <p>To be honest any old database would've sufficed when I got started but
+        MongoDB is very easy to set up and their Atlas platform makes it cheap
+        and easy to have something running in the cloud. For now I don't need any
+        of the features provided by a relational database and since MongoDB is
+        part of the NoSQL family of databases, it can scale to handle large
+        volumes of data with high read and write throughput.</p>
+      </li>
+
+      <li>
+        Angular + TypeScript
+        <p>Angular is a soup to nuts web development framework well suited for
+        large projects and enterprise level efforts. It provides developers with
+        a lot right out of the box which creates a bit of a learning curve
+        initially but it also means we automatically get preprocessors and task
+        runners that enable us to use things like SCSS and TypeScript and
+        production grade deploy binaries.
+        </p>
+      </li>
+    </ul>
+
+    <p>The source code in its entirity can be found on
+    <a href="https://github.com/agaber/vote">GitHub</a>.</p>
+
+    <h2>What's next?</h2>
+
+    <p>
+      I'm not sure. 🙂 I have a lot of feature ideas and there's quite a bit that
+      can be done to productionize this app as well (CI/CD, monitoring, logs analysis).
+      My initial <a href="https://github.com/agaber/vote/blob/main/product_requirements.pdf">PRD</a>
+      also has a few ideas. Sorry that's all so vague and non-committal but I am
+      also more than happy to accept feature requests and pull requests on
+      <a href="https://github.com/agaber/vote">GitHub</a>.
+    </p>
+  </mat-card-content>
+</mat-card>
