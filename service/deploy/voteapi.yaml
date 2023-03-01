@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: voteapi
-          image: macdoogles/voteservice
+          image: macdoogles/voteservice:1.0.0
           ports:
             - containerPort: 8080
           env:
